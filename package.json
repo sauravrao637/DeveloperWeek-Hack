@@ -1,0 +1,32 @@
+{
+    "name": "DeveloperWeek-Hack",
+    "version": "1.0.0",
+    "description": "Custom Celo Composer project.",
+    "private": true,
+    "author": "Celo",
+    "license": "MIT",
+    "scripts": {
+        "react-app:dev": "yarn workspace @DeveloperWeek-Hack/react-app dev",
+        "react-app:build": "yarn workspace @DeveloperWeek-Hack/react-app build",
+        "react-app:start": "yarn workspace @DeveloperWeek-Hack/react-app start",
+        "react-app:lint": "yarn workspace @DeveloperWeek-Hack/react-app lint",
+        "truffle:test": "yarn workspace @DeveloperWeek-Hack/truffle test",
+        "truffle:devchain": "yarn workspace @DeveloperWeek-Hack/truffle devchain",
+        "truffle:fork-mainnet": "yarn workspace @DeveloperWeek-Hack/truffle fork-mainnet"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/celo-org/celo-composer.git"
+    },
+    "bugs": {
+        "url": "https://github.com/celo-org/celo-composer/issues"
+    },
+    "homepage": "https://github.com/celo-org/celo-composer/blob/main/README.md",
+    "workspaces": [
+        "packages/*"
+    ],
+    "keywords": [
+        "celo-composer",
+        "celo"
+    ]
+}
