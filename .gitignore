@@ -40,3 +40,4 @@ nb-configuration.xml
 *.swp
 
 PROPOSAL.md
+packages/truffle/contracts/Compare.sol

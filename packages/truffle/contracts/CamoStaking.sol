@@ -42,7 +42,7 @@ contract CamoStaking is Ownable {
     }
 
     modifier onlyAuthorized() {
-        require(serverAddress == msg.sender, "Non Stakable NFT");
+        require(serverAddress == msg.sender, "Not Authorised");
         _;
     }
 
@@ -71,6 +71,7 @@ contract CamoStaking is Ownable {
     }
 
     function stakeWallet() public {
+        require(stakers[msg.sender].userJoinedTS == 0, "Already Staked");
         stakers[msg.sender].userJoinedTS = block.timestamp;
         emit StakedWallet(msg.sender);
     }

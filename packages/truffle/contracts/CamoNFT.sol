@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract CamoNFT is ERC721, Ownable {
     enum RarityLevel {Common, Uncommon, Rare, Epic, Legendary}
-
+    uint256 counter = 0;
     struct NFT {
         uint256 tokenId;
         address owner;
@@ -16,7 +16,7 @@ contract CamoNFT is ERC721, Ownable {
         uint256 stakeClaimedTimeStamp;
     }
 
-    uint256 constant public BASE_PRICE = 0.0001 ether;
+    uint256 constant public BASE_PRICE = 1_000_000 wei;
     uint256 constant public COMMON_PRICE = BASE_PRICE *1;
     uint256 constant public UNCOMMON_PRICE = BASE_PRICE *2;
     uint256 constant public RARE_PRICE = BASE_PRICE *3;
@@ -49,14 +49,15 @@ contract CamoNFT is ERC721, Ownable {
         _;
     }
 
-    function mintNFT(uint256 tokenId, RarityLevel rarity) external payable {
+    function mintNFT(RarityLevel rarity) external payable {
         require(rarity >= RarityLevel.Common && rarity <= RarityLevel.Legendary, "Invalid rarity level");
 
         uint256 price = getPrice(rarity);
         require(msg.value >= price, "Insufficient payment");
 
         require(getCount(rarity) < getCap(rarity), "Rarity level sold out");
-
+        uint256 tokenId = counter;
+        counter++;
         _safeMint(msg.sender, tokenId);
         _ownedTokens[msg.sender].push(tokenId);
         nfts[tokenId] = NFT(tokenId, msg.sender, rarity, block.timestamp, block.timestamp);
@@ -162,6 +163,14 @@ contract CamoNFT is ERC721, Ownable {
             uint256 tokenId = tokenList[i];
             nfts[tokenId].entryTimestamp = block.timestamp;
         }
+    }
+
+    function withdrawFunds() public payable onlyOwner{
+        payable(msg.sender).transfer(address(this).balance);
+    }
+
+    function checkBalance() public view onlyOwner returns(uint256){
+        return address(this).balance;
     }
 }
 
