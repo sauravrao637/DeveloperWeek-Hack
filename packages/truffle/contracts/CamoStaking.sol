@@ -115,7 +115,7 @@ contract CamoStaking is Ownable {
     }
 
     // Function to distribute incentives to all stakers based on the duration they hold the NFTs
-    function distributeIncentives() external onlyAuthorized {
+    function distributeIncentives() public onlyAuthorized {
         uint256 total = 0;
         uint256 currSupplyRatio = getSupplyRatio();
         for (uint256 i = 0; i < stakingAddress.length; i++) {

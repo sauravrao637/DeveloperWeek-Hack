@@ -1,3 +1,5 @@
+const res = require("express/lib/response")
+
 // Contracts
 const CamoNFT = artifacts.require("CamoNFT")
 const CamoStaking = artifacts.require("CamoStaking")
@@ -8,7 +10,6 @@ setCamoTokenAddressAndSendFunds = async function (camoToken, camoStaking, camoNF
 	const MAX_SUPPLY = await camoToken.MAX_SUPPLY()
 
 	console.log("camoToken", MAX_SUPPLY.toString());
-	console.log("addrresses", camoNFT.address, camoStaking.address, camoToken.address, owner);
 	const result = await camoToken.approve.sendTransaction(owner, MAX_SUPPLY, { from: owner });
 	console.log(result)
 
@@ -27,6 +28,11 @@ setCamoNFTAddress = async function (camoNFT, camoStaking, owner) {
 	console.log(result)
 }
 
+setServerAddress = async function (camoStaking, owner) {
+	const result = await camoStaking.setServerAddress.sendTransaction(owner, { from: owner });
+	console.log(result)
+}
+
 module.exports = async function (callback) {
 	try {
 		// Fetch accounts from wallet - these are unlocked
@@ -37,6 +43,11 @@ module.exports = async function (callback) {
 		const camoToken = await CamoToken.deployed();
 		const camoStaking = await CamoStaking.deployed();
 		const camoNFT = await CamoNFT.deployed();
+
+		console.log("addrresses", owner)
+		console.log("const addrNFT = " + "\"" + camoNFT.address + "\"")
+		console.log("const addrStaking = ", "\"" + camoStaking.address + "\"")
+		console.log("const addrToken = ", "\"" + camoToken.address + "\"");
 
 		try {
 			await setCamoTokenAddressAndSendFunds(camoToken, camoStaking, camoNFT, owner)
@@ -50,6 +61,11 @@ module.exports = async function (callback) {
 		}
 		catch (error) {
 			console.error(error)
+		}
+		try {
+			await setServerAddress(camoStaking, owner)
+		} catch (error) {
+			console.log(error)
 		}
 	}
 	catch (error) {
