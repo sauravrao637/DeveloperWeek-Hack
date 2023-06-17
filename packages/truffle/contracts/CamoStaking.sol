@@ -72,7 +72,8 @@ contract CamoStaking is Ownable {
 
     function stakeWallet() public {
         require(stakers[msg.sender].userJoinedTS == 0, "Already Staked");
-        stakers[msg.sender].userJoinedTS = block.timestamp;
+        stakers[msg.sender] = Staker(block.timestamp, 0);
+        stakingAddress.push(msg.sender);
         emit StakedWallet(msg.sender);
     }
 
@@ -107,9 +108,9 @@ contract CamoStaking is Ownable {
                 uint256 stakeClaimedTimeStamp
             ) = getNftById(tokens[i]);
             uint256 lastStaked = getMax(entryTimestamp, stakeClaimedTimeStamp);
-            uint256 holdingTime = ((block.timestamp - lastStaked) / 1 hours);
+            uint256 holdingTime = ((block.timestamp - lastStaked));
             uint256 rate = getRate(rarity);
-            incentiveAmount += rate * holdingTime;
+            incentiveAmount += (rate * holdingTime * 10**18)/ 60_000;
         }
         return incentiveAmount;
     }
@@ -120,7 +121,7 @@ contract CamoStaking is Ownable {
         uint256 currSupplyRatio = getSupplyRatio();
         for (uint256 i = 0; i < stakingAddress.length; i++) {
             address _user = stakingAddress[i];
-            uint256 reward = currSupplyRatio * calculateIncentive(_user);
+            uint256 reward = (currSupplyRatio * calculateIncentive(_user))/ 10**18;
             camoNFTAddress.updateTimestamp(_user);
             stakers[_user].reward += reward;
             total += reward;
@@ -141,5 +142,16 @@ contract CamoStaking is Ownable {
             return tier5Rate;
         }
         revert("Invalid rarity level");
+    }
+    function getStaker(address _user) public view onlyOwner returns(Staker memory staker){
+        staker = stakers[_user];
+    }
+
+    function amIStaker() public view onlyStaker returns(bool){
+        return true;
+    }
+
+    function rewardAccumulated() public view onlyStaker returns(uint256){
+        return stakers[msg.sender].reward;
     }
 }

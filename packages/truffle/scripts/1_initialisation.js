@@ -1,5 +1,4 @@
 const res = require("express/lib/response")
-
 // Contracts
 const CamoNFT = artifacts.require("CamoNFT")
 const CamoStaking = artifacts.require("CamoStaking")
