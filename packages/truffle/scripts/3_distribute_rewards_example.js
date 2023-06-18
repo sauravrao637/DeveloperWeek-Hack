@@ -1,12 +1,12 @@
 // ganache
-const addrNFT = "0xc34094D3bE332f9dFF526c6caF0fc42A0E5292ad"
-const addrStaking = "0x9500d22680A118E51929258DE130b6873Bf2Ae9a"
-const addrToken = "0x61d784eFF24163869161D406CCE3E4806BD18cD2"
+// const addrNFT = "0xc34094D3bE332f9dFF526c6caF0fc42A0E5292ad"
+// const addrStaking = "0x9500d22680A118E51929258DE130b6873Bf2Ae9a"
+// const addrToken = "0x61d784eFF24163869161D406CCE3E4806BD18cD2"
 
 // cannoli
-// const addrNFT = "0xDdc465E647A12e3ffB96e305ab5d3be9FEFFe407"
-// const addrStaking = "0xDb7Eb2c77A80D4F199fE1A12A16124204D5C6345"
-// const addrToken = "0x19521de75582E91BF9aaD0DB7Bd2296ca5A2b00d"
+const addrNFT = "0xde148195B143c88857009e2D08541516b1B4ed82"
+const addrStaking = "0x2199E959e8035E4EfE45E4C419090F67655e5f47"
+const addrToken = "0xe0b12e13dD4A5822c0CEA5757C1EfaA48cd48acb"
 
 // Contracts
 const CamoNFT = artifacts.require("CamoNFT")
