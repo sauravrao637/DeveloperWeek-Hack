@@ -79,7 +79,7 @@ contract CamoStaking is Ownable {
 
     function claimReward() public onlyStaker {
         uint256 reward = stakers[msg.sender].reward;
-        camoTokenAddress.transferFrom(address(this), msg.sender, reward);
+        camoTokenAddress.transfer(msg.sender, reward);
     }
 
     function getNftById(uint256 tokenId)
