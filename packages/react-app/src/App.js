@@ -44,7 +44,7 @@ const getBalance = async ({ camoNFTInstance }) => {
     return -1;
   }
 }
-const Contract1Page = ({ camoNFTInstance }) => {
+const Contract1Page = ({ camoNFTInstance, mintNFT }) => {
   console.log("C1Page, camoNFTInstance:- ", camoNFTInstance)
   const [balance, setBalance] = useState('_');
   useEffect(() => {
@@ -58,7 +58,7 @@ const Contract1Page = ({ camoNFTInstance }) => {
   return (
     <div>
       <h1>Contract 1 Page</h1>
-      <p>Wallet Address: {balance}</p>
+      <button onClick={() => mintNFT(0)}>Mint NFT</button>
     </div>
   );
 };
@@ -78,6 +78,40 @@ const App = () => {
   const [camoNFTInstance, setNFTInstance] = useState(null);
   const [camoStakingInstance, setStakingInstance] = useState(null);
 
+  // NFT Variables
+  const [nftBasePrice, setNFTBasePrice] = useState(0);
+  const [myTotalNFTs, setMyTotalNFTs] = useState(0);
+
+  const [commonNFTCap, setCommonNFTCap] = useState(0);
+  const [uncommonNFTCap, setUncommonNFTCap] = useState(0);
+  const [rareNFTCap, setRareNFTCap] = useState(0);
+  const [epicNFTCap, setEpicNFTCap] = useState(0);
+  const [legendaryNFTCap, setLegendaryNFTCap] = useState(0);
+
+  const [commonCount, setCommonNFTCount] = useState(0);
+  const [uncommonCount, setUncommonNFTCount] = useState(0);
+  const [rareCount, setRareNFTCount] = useState(0);
+  const [epicCount, setEpicNFTCount] = useState(0);
+  const [legendaryCount, setLegendaryNFTCount] = useState(0);
+
+  const [commonNFTPrice, setCommonNFTPrice] = useState(0);
+  const [uncommonNFTPrice, setUncommonNFTPrice] = useState(0);
+  const [rareNFTPrice, setRareNFTPrice] = useState(0);
+  const [epicNFTPrice, setEpicNFTPrice] = useState(0);
+  const [legendaryNFTPrice, setLegendaryNFTPrice] = useState(0);
+
+  // Staking Variables
+  const [amIStakedr, setStakerStatus] = useState(false);
+  const [baseRewardRateCommon, setBaseRewardRateCommon] = useState(0);
+  const [baseRewardRateUncommon, setBaseRewardRateUncommon] = useState(0);
+  const [baseRewardRateRare, setBaseRewardRateRare] = useState(0);
+  const [baseRewardRateEpic, setBaseRewardRateEpic] = useState(0);
+  const [baseRewardRateLegendary, setBaseRewardRateLegendary] = useState(0);
+  const [supplyRation, setSupplyRation] = useState(0);
+  const [leftSupply, setLeftSupply] = useState(0);
+  const [rewardAccumulated, setRewardAccumulated] = useState(0);
+
+
   useEffect(() => {
     connectWallet();
   }, []);
@@ -85,6 +119,18 @@ const App = () => {
   useEffect(() => {
     loadContracts();
   }, [web3]);
+
+  useEffect(() => {
+    getNFTBasePrice();
+    getMyTotalNFTs();
+    let i = 0;
+    do {
+      getNFTCap(i);
+      getNFTCount(i);
+      getNFTPrice(i);
+      i++;
+    } while (i < 5);
+  }, [camoNFTInstance])
 
   const ALFAJORES_PARAMS = {
     chainId: "0xaef3",
@@ -154,13 +200,109 @@ const App = () => {
     }
   }
 
+  const getNFTBasePrice = async () => {
+    try {
+      const result = await camoNFTInstance.methods.BASE_PRICE().call();
+      console.log("NFT BasePrice = ", result);
+      setNFTBasePrice(result)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getMyTotalNFTs = async () => {
+    try {
+      const result = await camoNFTInstance.methods
+        .balanceOf(window.web3.currentProvider.selectedAddress)  //function in contract
+        .call();
+      console.log("mY Total NFTs = ", result);
+      setMyTotalNFTs(result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const getNFTCap = async (rarity) => {
+    try {
+      const result = await camoNFTInstance.methods.getCap(rarity).call();
+      console.log("rarity", rarity, " cap ", result)
+      setNFTCapByRarity(rarity, result);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getNFTCount = async (rarity) => {
+    try {
+      const result = await camoNFTInstance.methods.getCount(rarity).call();
+      console.log("rarity", rarity, " count ", result)
+      setNFTCountByRarity(rarity, result)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getNFTPrice = async (rarity) => {
+    try {
+      const result = await camoNFTInstance.methods.getPrice(rarity).call();
+      console.log("rarity", rarity, " prcie ", result)
+      setNFTPriceByRarity(rarity, result)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const mintNFT = async (rarity) => {
+    try {
+      const price = web3.utils.toWei(getPriceByRarity(rarity).toString(), "wei");
+      console.log("priceInWei ", price)
+      const result = await camoNFTInstance.methods.mintNFT(rarity).send({ from: window.web3.currentProvider.selectedAddress, value: price });
+      console.log("minNFT", result)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+
+  const getPriceByRarity = (rarity) => {
+    if (rarity === 0) return commonNFTPrice;
+    if (rarity === 1) return uncommonNFTPrice;
+    if (rarity === 2) return rareNFTPrice;
+    if (rarity === 3) return epicNFTPrice;
+    if (rarity === 4) return legendaryNFTPrice;
+  }
+
+  const setNFTCapByRarity = (rarity, result) => {
+    if (rarity === 0) setCommonNFTCap(result);
+    else if (rarity === 1) setUncommonNFTCap(result);
+    else if (rarity === 2) setRareNFTCap(result);
+    else if (rarity === 3) setEpicNFTCap(result);
+    else if (rarity === 4) setLegendaryNFTCap(result);
+  }
+  const setNFTCountByRarity = (rarity, result) => {
+    if (rarity === 0) setCommonNFTCount(result);
+    else if (rarity === 1) setUncommonNFTCount(result);
+    else if (rarity === 2) setRareNFTCount(result);
+    else if (rarity === 3) setEpicNFTCount(result);
+    else if (rarity === 4) setLegendaryNFTCount(result);
+  }
+
+  const setNFTPriceByRarity = (rarity, result) => {
+    if (rarity === 0) setCommonNFTPrice(result);
+    else if (rarity === 1) setUncommonNFTPrice(result);
+    else if (rarity === 2) setRareNFTPrice(result);
+    else if (rarity === 3) setEpicNFTPrice(result);
+    else if (rarity === 4) setLegendaryNFTPrice(result);
+  }
+
+
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <div>
         <Navbar walletAddress={walletAddress} />
         <Routes>
           <Route path="/" element={<HomePage connectWallet={connectWallet} walletAddress={walletAddress} />} />
-          <Route path="/contract1" element={<Contract1Page camoNFTInstance={camoNFTInstance} />} />
+          <Route path="/contract1" element={<Contract1Page camoNFTInstance={camoNFTInstance} mintNFT={mintNFT} />} />
           <Route path="/contract2" element={<Contract2Page camoStakingInstance={camoStakingInstance} />} />
         </Routes>
       </div>
