@@ -327,9 +327,9 @@ const App = () => {
 
   const checkStaker = async () => {
     try {
-      const result = await camoStakingInstance.amIStaker.call();
-      console.log("staker status: ", result);
-      setStakerStatus(result)
+      const result = await camoStakingInstance.methods.amIStaker.call();
+      console.log("staker status: ", true);
+      setStakerStatus(true)
     } catch (error) {
       console.error(error);
       setStakerStatus(false)
