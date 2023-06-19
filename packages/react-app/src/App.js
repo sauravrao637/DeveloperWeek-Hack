@@ -31,8 +31,10 @@ const HomePage = ({ connectWallet, walletAddress }) => {
 };
 
 
-const Contract1Page = ({ mintNFT, myTotalNFTs }) => {
+const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rareNFTCap, epicNFTCap, legendaryNFTCap, commonNFTPrice, uncommonNFTPrice, rareNFTPrice, epicNFTPrice, legendaryNFTPrice, commonCount, uncommonCount, rareCount, epicCount, legendaryCount }) => {
+
   console.log("C1Page, myTotalNFTs:- ", myTotalNFTs)
+
   return (
     <div className="container">
       <h3 className="section-title">Mint NFTs</h3>
@@ -40,31 +42,26 @@ const Contract1Page = ({ mintNFT, myTotalNFTs }) => {
       <div className="nft-boxes">
         <div className="nft-box">
           <img src="./common.jpg" alt="Rare NFT" />
-          <div className="discord-address">DMB#438</div>
           <div className="unclickable-tab">Rare</div> <br />
           <button className="mintNFT" onClick={() => mintNFT(0)}> Mint </button>
         </div>
         <div className="nft-box">
           <img src="./uncommon.jpg" alt="Rare NFT" />
-          <div className="discord-address">DMB#439</div>
           <div className="unclickable-tab">Common</div> <br />
           <button className="mintNFT" onClick={() => mintNFT(1)}> Mint </button>
         </div>
         <div className="nft-box">
           <img src="./rare.jpg" alt="Rare NFT" />
-          <div className="discord-address">DMB#440</div>
           <div className="unclickable-tab">Epic</div> <br />
           <button className="mintNFT" onClick={() => mintNFT(2)}> Mint </button>
         </div>
         <div className="nft-box">
           <img src="./epic.jpg" alt="Rare NFT" />
-          <div className="discord-address">DMB#441</div>
           <div className="unclickable-tab">Rare</div> <br />
           <button className="mintNFT" onClick={() => mintNFT(3)}> Mint </button>
         </div>
         <div className="nft-box">
           <img src="./legendary.jpg" alt="Rare NFT" />
-          <div className="discord-address">DMB#442</div>
           <div className="unclickable-tab">Legendary</div> <br />
           <button className="mintNFT" onClick={() => mintNFT(4)}> Mint </button>
         </div>
@@ -73,7 +70,7 @@ const Contract1Page = ({ mintNFT, myTotalNFTs }) => {
   );
 };
 
-const Contract2Page = ({ walletAddress, claimReward, stakeWallet }) => {
+const Contract2Page = ({ amIStaker, rewardAccumulated, claimReward, stakeWallet, getRewardAccumulated, supplyRatio, tokenAddress }) => {
   return (
     <div>
       <h1>Contract 2 Page</h1>
@@ -119,7 +116,7 @@ const App = () => {
   const [baseRewardRateRare, setBaseRewardRateRare] = useState(0);
   const [baseRewardRateEpic, setBaseRewardRateEpic] = useState(0);
   const [baseRewardRateLegendary, setBaseRewardRateLegendary] = useState(0);
-  const [supplyRation, setSupplyRatio] = useState('');
+  const [supplyRatio, setSupplyRatio] = useState('');
   const [leftSupply, setLeftSupply] = useState('');
   const [rewardAccumulated, setRewardAccumulated] = useState('');
 
@@ -435,9 +432,11 @@ const App = () => {
       <div>
         <Navbar walletAddress={walletAddress} />
         <Routes>
-          <Route path="/" element={<HomePage connectWallet={connectWallet} walletAddress={walletAddress} />} />
-          <Route path="/contract1" element={<Contract1Page myTotalNFTs={myTotalNFTs} mintNFT={mintNFT} />} />
-          <Route path="/contract2" element={<Contract2Page camoStakingInstance={camoStakingInstance} claimReward={claimReward} stakeWallet={stakeWallet} getRewardAccumulated={getRewardAccumulated} />} />
+          <Route path="/" element={<HomePage walletAddress={walletAddress} />} />
+
+          <Route path="/contract1" element={<Contract1Page myTotalNFTs={myTotalNFTs} mintNFT={mintNFT} commonNFTCap={commonNFTCap} uncommonNFTCap={uncommonNFTCap} rareNFTCap={rareNFTCap} epicNFTCap={epicNFTCap} legendaryNFTCap={legendaryNFTCap} commonNFTPrice={commonNFTPrice} uncommonNFTPrice={uncommonNFTPrice} rareNFTPrice={rareNFTPrice} epicNFTPrice={epicNFTPrice} legendaryNFTPrice={legendaryNFTPrice} commonCount={commonCount} uncommonCount={uncommonCount} rareCount={rareCount} epicCount={epicCount} legendaryCount={legendaryCount} />} />
+
+          <Route path="/contract2" element={<Contract2Page amIStaker={amIStaker} rewardAccumulated={rewardAccumulated} claimReward={claimReward} stakeWallet={stakeWallet} getRewardAccumulated={getRewardAccumulated} supplyRatio={supplyRatio} tokenAddress={addrToken} />} />
         </Routes>
       </div>
     </BrowserRouter>
