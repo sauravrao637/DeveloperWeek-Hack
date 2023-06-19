@@ -63,11 +63,13 @@ const Contract1Page = ({ camoNFTInstance, mintNFT }) => {
   );
 };
 
-const Contract2Page = ({ walletAddress }) => {
+const Contract2Page = ({ walletAddress, claimReward, stakeWallet }) => {
   return (
     <div>
       <h1>Contract 2 Page</h1>
       <p>Wallet Address: {walletAddress}</p>
+      <button onClick={() => claimReward()}>Claim Reward</button>
+      <button onClick={() => stakeWallet()}>Stake Wallet</button>
     </div>
   );
 };
@@ -101,15 +103,15 @@ const App = () => {
   const [legendaryNFTPrice, setLegendaryNFTPrice] = useState(0);
 
   // Staking Variables
-  const [amIStakedr, setStakerStatus] = useState(false);
+  const [amIStaker, setStakerStatus] = useState(false);
   const [baseRewardRateCommon, setBaseRewardRateCommon] = useState(0);
   const [baseRewardRateUncommon, setBaseRewardRateUncommon] = useState(0);
   const [baseRewardRateRare, setBaseRewardRateRare] = useState(0);
   const [baseRewardRateEpic, setBaseRewardRateEpic] = useState(0);
   const [baseRewardRateLegendary, setBaseRewardRateLegendary] = useState(0);
-  const [supplyRation, setSupplyRation] = useState(0);
-  const [leftSupply, setLeftSupply] = useState(0);
-  const [rewardAccumulated, setRewardAccumulated] = useState(0);
+  const [supplyRation, setSupplyRatio] = useState('');
+  const [leftSupply, setLeftSupply] = useState('');
+  const [rewardAccumulated, setRewardAccumulated] = useState('');
 
 
   useEffect(() => {
@@ -131,6 +133,21 @@ const App = () => {
       i++;
     } while (i < 5);
   }, [camoNFTInstance])
+
+  useEffect(() => {
+    checkStaker()
+    let i = 0;
+    do {
+      getRewardRate(i);
+      i++;
+    } while (i < 5);
+    // 
+    getSupplyRatio()
+    getLeftSupply()
+    getRewardAccumulated()
+
+  }, [camoStakingInstance])
+
 
   const ALFAJORES_PARAMS = {
     chainId: "0xaef3",
@@ -154,7 +171,7 @@ const App = () => {
     try {
       await window.ethereum.request({
         method: 'wallet_addEthereumChain',
-        params: [CANNOLI_PARAMS],
+        params: [ALFAJORES_PARAMS],
       });
 
       if (window.ethereum) {
@@ -176,30 +193,55 @@ const App = () => {
     }
   };
 
-  const loadContracts = async () => {
+  const loadContracts = () => {
     try {
-      console.log("web3:- ", web3);
-      const web3Instance = web3; // Access the web3 state variable
-
-      let { abi } = require('./contract_abis/CamoNFT.json');
-      const camoNFTAbi = { abi }
-      console.log("camoNFTAbi:- ", camoNFTAbi);
-      const camoNFTInstance = new web3Instance.eth.Contract(camoNFTAbi.abi, addrNFT);
-      console.log("camoNFTInstance:- ", camoNFTInstance);
-
-
-      // abi = require('./contract_abis/CamoStaking.json');
-      // const camoStakingAbi = { abi };
-      // const camoStakingInstance = new web3Instance.eth.Contract(camoStakingAbi.abi, addrStaking);
-      // console.log("camoStaking:- ", camoStakingInstance);
-
-      setNFTInstance(camoNFTInstance);
-      // setStakingInstance(camoStakingInstance);
+      if (!web3) throw new Error("Web3 is null")
+      loadNFTContract()
+      loadStakingContract()
     } catch (error) {
       console.error(error);
     }
   }
 
+  const loadNFTContract = async () => {
+    try {
+      console.log("web3:- ", web3);
+      const web3Instance = web3; // Access the web3 state variable
+      let { abi } = require('./contract_abis/CamoNFT.json');
+      const camoNFTAbi = { abi }
+
+      console.log("camoNFTAbi:- ", camoNFTAbi);
+
+      const camoNFTInstance = new web3Instance.eth.Contract(camoNFTAbi.abi, addrNFT);
+
+      console.log("camoNFTInstance:- ", camoNFTInstance);
+      setNFTInstance(camoNFTInstance);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const loadStakingContract = async () => {
+    try {
+      console.log("-----------------loading staking contract-----------------")
+      console.log("web3:- ", web3);
+      const web3Instance = web3; // Access the web3 state variable
+      let { abi } = require('./contract_abis/CamoStaking.json');
+      const camoStakingAbi = { abi }
+
+      console.log("camoStakingAbi:- ", camoStakingAbi);
+
+      const camoStakingInstance = new web3Instance.eth.Contract(camoStakingAbi.abi, addrStaking);
+
+      console.log("camoStakingInstance:- ", camoStakingInstance);
+      setStakingInstance(camoStakingInstance);
+      console.log("-----------------success loading staking contract-----------------")
+    } catch (error) {
+      console.log(error)
+      console.log("-----------------failed loading staking contract-----------------")
+    }
+  }
+  // NFT Functions
   const getNFTBasePrice = async () => {
     try {
       const result = await camoNFTInstance.methods.BASE_PRICE().call();
@@ -263,6 +305,79 @@ const App = () => {
     }
   }
 
+  // Staking Functions
+
+  const claimReward = async () => {
+    try {
+      const result = await camoStakingInstance.methods.claimReward().call({ from: window.web3.currentProvider.selectedAddress });
+      console.log("claimReward result:- ", result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const stakeWallet = async () => {
+    try {
+      const result = await camoStakingInstance.methods.stakeWallet().send({ from: window.web3.currentProvider.selectedAddress });
+      console.log("stake wallet result:- ", result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const checkStaker = async () => {
+    try {
+      const result = await camoStakingInstance.amIStaker.call();
+      console.log("staker status: ", result);
+      setStakerStatus(result)
+    } catch (error) {
+      console.error(error);
+      setStakerStatus(false)
+    }
+  }
+
+  const getRewardRate = async (rarity) => {
+    try {
+      const result = await camoStakingInstance.getRate(rarity).call();
+      console.log("reward rate for ", rarity, " is", result);
+      setRewardRateByRarity(rarity, result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const getSupplyRatio = async () => {
+    try {
+      const result = await camoStakingInstance.getSupplyRatio().call();
+      console.log("supply ratio =", result.toString());
+      setSupplyRatio(result.toString);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const getLeftSupply = async () => {
+    try {
+      const result = await camoStakingInstance.leftSupply().call();
+      console.log("left supply = ", result.toString());
+      setLeftSupply(result.toString());
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const getRewardAccumulated = async () => {
+    try {
+      const result = await camoStakingInstance.rewardAccumulated().call();
+      console.log("accumulated = ", result.toString())
+      setRewardAccumulated(result.toString())
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+  // utility functions
 
   const getPriceByRarity = (rarity) => {
     if (rarity === 0) return commonNFTPrice;
@@ -279,6 +394,7 @@ const App = () => {
     else if (rarity === 3) setEpicNFTCap(result);
     else if (rarity === 4) setLegendaryNFTCap(result);
   }
+
   const setNFTCountByRarity = (rarity, result) => {
     if (rarity === 0) setCommonNFTCount(result);
     else if (rarity === 1) setUncommonNFTCount(result);
@@ -295,6 +411,13 @@ const App = () => {
     else if (rarity === 4) setLegendaryNFTPrice(result);
   }
 
+  const setRewardRateByRarity = (rarity, result) => {
+    if (rarity === 0) setBaseRewardRateCommon(result);
+    else if (rarity === 1) setBaseRewardRateUncommon(result);
+    else if (rarity === 2) setBaseRewardRateRare(result);
+    else if (rarity === 3) setBaseRewardRateEpic(result);
+    else if (rarity === 4) setBaseRewardRateLegendary(result);
+  }
 
   return (
     <BrowserRouter basename={process.env.PUBLIC_URL}>
@@ -303,7 +426,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage connectWallet={connectWallet} walletAddress={walletAddress} />} />
           <Route path="/contract1" element={<Contract1Page camoNFTInstance={camoNFTInstance} mintNFT={mintNFT} />} />
-          <Route path="/contract2" element={<Contract2Page camoStakingInstance={camoStakingInstance} />} />
+          <Route path="/contract2" element={<Contract2Page camoStakingInstance={camoStakingInstance} claimReward={claimReward} stakeWallet={stakeWallet} getRewardAccumulated={getRewardAccumulated} />} />
         </Routes>
       </div>
     </BrowserRouter>

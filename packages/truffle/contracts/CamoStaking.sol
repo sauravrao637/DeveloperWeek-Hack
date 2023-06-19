@@ -17,10 +17,10 @@ contract CamoStaking is Ownable {
     address[] stakingAddress;
 
     uint256 public tier1Rate;
-    uint256 public tier2Rate = tier1Rate * 2;
-    uint256 public tier3Rate = tier1Rate * 3;
-    uint256 public tier4Rate = tier1Rate * 5;
-    uint256 public tier5Rate = tier1Rate * 8;
+    uint256 public tier2Rate;
+    uint256 public tier3Rate;
+    uint256 public tier4Rate;
+    uint256 public tier5Rate;
 
     CamoToken public camoTokenAddress;
 
@@ -34,6 +34,10 @@ contract CamoStaking is Ownable {
 
     constructor(uint256 baseRewardRate) {
         tier1Rate = baseRewardRate;
+        tier2Rate = tier1Rate * 2;
+        tier3Rate = tier1Rate * 3;
+        tier4Rate = tier1Rate * 5;
+        tier5Rate = tier1Rate * 8;
     }
 
     modifier onlyStaker() {

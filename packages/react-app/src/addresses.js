@@ -1,5 +1,4 @@
-const addrNFT = "0xde148195B143c88857009e2D08541516b1B4ed82"
-const addrStaking = "0x2199E959e8035E4EfE45E4C419090F67655e5f47"
-const addrToken = "0xe0b12e13dD4A5822c0CEA5757C1EfaA48cd48acb"
-
+const addrNFT = "0xCf4EB4d955b7045430841487610D596555139D44"
+const addrStaking = "0x1C1cc2C323d0C0257Dd9Bc05AD7608c4d2a208c0"
+const addrToken = "0x5d71c55718cA8c30D2CE8B60b5f15fB323f86C10"
 export { addrNFT, addrStaking, addrToken }
