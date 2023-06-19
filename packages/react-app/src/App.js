@@ -56,9 +56,45 @@ const Contract1Page = ({ camoNFTInstance, mintNFT }) => {
     }
   }, [camoNFTInstance]);
   return (
-    <div>
-      <h1>Contract 1 Page</h1>
-      <button onClick={() => mintNFT(0)}>Mint NFT</button>
+    <div className="container">
+      <h3 className="section-title">Mint NFTs</h3>
+      <div className="nft-boxes">
+        <div className="nft-box">
+          <img src="https://i.ibb.co/Qv9LH8k/img1.jpg" alt="Rare NFT" />
+          <div className="discord-address">DMB#438</div>
+          <div className="unclickable-tab">Rare</div> <br />
+          <input type="number" />
+          <button className="mintNFT" onClick={() => mintNFT(0)}> Mint </button>
+        </div>
+        <div className="nft-box">
+          <img src="https://i.ibb.co/cYHfvTS/img2.jpg" alt="Rare NFT" />
+          <div className="discord-address">DMB#439</div>
+          <div className="unclickable-tab">Common</div> <br />
+          <input type="number" />
+          <button className="mintNFT" onClick={() => mintNFT(1)}> Mint </button>
+        </div>
+        <div className="nft-box">
+          <img src="https://i.ibb.co/sH7PVSM/img3.jpg" alt="Rare NFT" />
+          <div className="discord-address">DMB#440</div>
+          <div className="unclickable-tab">Epic</div> <br />
+          <input type="number" />
+          <button className="mintNFT" onClick={() => mintNFT(2)}> Mint </button>
+        </div>
+        <div className="nft-box">
+          <img src="https://i.ibb.co/5FL15cJ/img4.jpg" alt="Rare NFT" />
+          <div className="discord-address">DMB#441</div>
+          <div className="unclickable-tab">Rare</div> <br />
+          <input type="number" />
+          <button className="mintNFT" onClick={() => mintNFT(3)}> Mint </button>
+        </div>
+        <div className="nft-box">
+          <img src="https://i.ibb.co/C9mN8jc/img5.jpg" alt="Rare NFT" />
+          <div className="discord-address">DMB#442</div>
+          <div className="unclickable-tab">Legendary</div> <br />
+          <input type="number" />
+          <button className="mintNFT" onClick={() => mintNFT(4)}> Mint </button>
+        </div>
+      </div>
     </div>
   );
 };
