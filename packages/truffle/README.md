@@ -1,26 +1,36 @@
-# Truffle | Celo Composer
 
-This project demonstrates a basic Truffle use case. It comes with a sample contractand a sample script that deploys that contract.
+# Vault Boost Contracts
 
-## Setup & Installation
+This Truffle project consists of three smart contracts deployed on the Celo Alfajores Testnet: CamoStaking, CamoNFT, and CamoToken.
 
-### Alfajores Testnet Setup
+## Contracts
 
-**Note** This setup is not required when using a local development blockchain (like celo-devchain or Ganache).
+### CamoStaking
 
-1. Create a `.env` file similar to `.envexample`.
-2. Paste the private key in `.env`.
-3. Faucet your account with the Alfajores testnet faucet [here](https://celo.org/developers/faucet).
+The `CamoStaking` contract implements a staking mechanism where users can stake their wallet and earn rewards on applicable NFTs without sending NFTs out of their wallet. It provides functions to register as staker, claim the rewards collected.
 
-## Develop
+### CamoNFT
 
-1. Write your contracts in `./contracts`.
-2. Update contract deployment scripts in `./deploy`.
-3. Compile the contracts with `truffle compile` in `packages/truffle` directory.
-4. Deploy contracts with `truffle deploy --network alfajores`.
+The `CamoNFT` contract is an ERC721 NFT (Non-Fungible Token) contract that allows the creation and management of unique digital assets. Users can mint new NFTs, transfer ownership, and check token balances.
 
-Network configs are defined in `truffle-config.js`.
+### CamoToken
 
-## Fork mainnet with [Ganache](https://trufflesuite.com/blog/introducing-ganache-7/index.html#1-zero-config-mainnet-forking)
+The `CamoToken` contract is an ERC20 token contract representing the native token of the Vault Boost ecosystem. It is used as the staking reward token in the `CamoStaking` contract and can also be transferred between addresses.
 
-You can get a local copy of mainnet by forking with Ganache. Learn more about [forking mainnet with Ganache here.](https://trufflesuite.com/blog/introducing-ganache-7/index.html#1-zero-config-mainnet-forking)
+## Deployment
+
+The contracts have been deployed on the Celo Alfajores Testnet. The deployment addresses are as follows:
+
+- `CamoStaking`: [0x1C1cc2C323d0C0257Dd9Bc05AD7608c4d2a208c0](https://explorer.celo.org/alfajores/address/0x1C1cc2C323d0C0257Dd9Bc05AD7608c4d2a208c0)
+- `CamoNFT`: [0xCf4EB4d955b7045430841487610D596555139D44](https://explorer.celo.org/alfajores/address/0xCf4EB4d955b7045430841487610D596555139D44)
+- `CamoToken`: [0x5d71c55718cA8c30D2CE8B60b5f15fB323f86C10](https://explorer.celo.org/alfajores/address/0x5d71c55718cA8c30D2CE8B60b5f15fB323f86C10)
+
+## Usage
+
+To interact with the deployed contracts, you can use a Celo-compatible wallet or a DApp browser with Celo support. Connect your wallet to the Celo Alfajores Testnet and use the contract addresses to interact with the respective contracts.
+
+The contracts provide various functions and features that can be accessed through their respective contract addresses.
+
+## Development
+
+To modify or extend the contracts, you can make changes to the contract files located in the Truffle project's contracts directory. Use Truffle commands to compile, migrate, and test the contracts.
