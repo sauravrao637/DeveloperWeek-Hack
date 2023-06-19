@@ -1,0 +1,9 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "dependencies": {
+    "@celo/contractkit": "^4.1.0",
+    "dotenv": "^16.3.1",
+    "web3": "^4.0.1"
+  }
+}

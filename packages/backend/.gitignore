@@ -1,0 +1,33 @@
+# Node.js
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment variables
+.env
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-*
+*.swp
+
+# Logs and backups
+*.log
+*.bak
+
+# Dependency lock files
+yarn.lock
+package-lock.json
+
+# Compiled binaries or executables
+*.exe
+*.dll
+*.so
+*.dylib
+
+# OS-generated files
+.DS_Store
+Thumbs.db
