@@ -30,68 +30,42 @@ const HomePage = ({ connectWallet, walletAddress }) => {
   );
 };
 
-const getBalance = async ({ camoNFTInstance }) => {
-  try {
-    let response = await camoNFTInstance.methods
-      .balanceOf(window.web3.currentProvider.selectedAddress)  //function in contract
-      .call({
-        from: window.web3.currentProvider.selectedAddress,
-      });
-    console.log("response: ", response);
-    return response;
-  } catch (error) {
-    console.error(error)
-    return -1;
-  }
-}
-const Contract1Page = ({ camoNFTInstance, mintNFT }) => {
-  console.log("C1Page, camoNFTInstance:- ", camoNFTInstance)
-  const [balance, setBalance] = useState('_');
-  useEffect(() => {
-    console.log('CamoNFTInstance updated:', camoNFTInstance);
-    if (camoNFTInstance) {
-      getBalance({ camoNFTInstance }).then(response => {
-        setBalance(response)
-      });
-    }
-  }, [camoNFTInstance]);
+
+const Contract1Page = ({ mintNFT, myTotalNFTs }) => {
+  console.log("C1Page, myTotalNFTs:- ", myTotalNFTs)
   return (
     <div className="container">
       <h3 className="section-title">Mint NFTs</h3>
+      <div>myTotalNFTs = {myTotalNFTs}</div>
       <div className="nft-boxes">
         <div className="nft-box">
           <img src="https://i.ibb.co/Qv9LH8k/img1.jpg" alt="Rare NFT" />
           <div className="discord-address">DMB#438</div>
           <div className="unclickable-tab">Rare</div> <br />
-          <input type="number" />
           <button className="mintNFT" onClick={() => mintNFT(0)}> Mint </button>
         </div>
         <div className="nft-box">
           <img src="https://i.ibb.co/cYHfvTS/img2.jpg" alt="Rare NFT" />
           <div className="discord-address">DMB#439</div>
           <div className="unclickable-tab">Common</div> <br />
-          <input type="number" />
           <button className="mintNFT" onClick={() => mintNFT(1)}> Mint </button>
         </div>
         <div className="nft-box">
           <img src="https://i.ibb.co/sH7PVSM/img3.jpg" alt="Rare NFT" />
           <div className="discord-address">DMB#440</div>
           <div className="unclickable-tab">Epic</div> <br />
-          <input type="number" />
           <button className="mintNFT" onClick={() => mintNFT(2)}> Mint </button>
         </div>
         <div className="nft-box">
           <img src="https://i.ibb.co/5FL15cJ/img4.jpg" alt="Rare NFT" />
           <div className="discord-address">DMB#441</div>
           <div className="unclickable-tab">Rare</div> <br />
-          <input type="number" />
           <button className="mintNFT" onClick={() => mintNFT(3)}> Mint </button>
         </div>
         <div className="nft-box">
           <img src="https://i.ibb.co/C9mN8jc/img5.jpg" alt="Rare NFT" />
           <div className="discord-address">DMB#442</div>
           <div className="unclickable-tab">Legendary</div> <br />
-          <input type="number" />
           <button className="mintNFT" onClick={() => mintNFT(4)}> Mint </button>
         </div>
       </div>
@@ -368,6 +342,7 @@ const App = () => {
       setStakerStatus(true)
     } catch (error) {
       console.error(error);
+      console.log("staker status: ", false);
       setStakerStatus(false)
     }
   }
@@ -461,7 +436,7 @@ const App = () => {
         <Navbar walletAddress={walletAddress} />
         <Routes>
           <Route path="/" element={<HomePage connectWallet={connectWallet} walletAddress={walletAddress} />} />
-          <Route path="/contract1" element={<Contract1Page camoNFTInstance={camoNFTInstance} mintNFT={mintNFT} />} />
+          <Route path="/contract1" element={<Contract1Page myTotalNFTs={myTotalNFTs} mintNFT={mintNFT} />} />
           <Route path="/contract2" element={<Contract2Page camoStakingInstance={camoStakingInstance} claimReward={claimReward} stakeWallet={stakeWallet} getRewardAccumulated={getRewardAccumulated} />} />
         </Routes>
       </div>
