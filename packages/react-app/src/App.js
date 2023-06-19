@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Link, Routes, Route } from 'react-router-dom';
 import Web3 from 'web3';
 import { addrNFT, addrStaking, addrToken } from './addresses'
+import "./App.css";
+
 const Navbar = ({ walletAddress }) => {
   return (
     <nav>
@@ -72,7 +74,7 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
 
 const Contract2Page = ({ amIStaker, rewardAccumulated, claimReward, stakeWallet, getRewardAccumulated, supplyRatio, tokenAddress }) => {
   return (
-    <div className="container">
+    <div className="Stake-container">
       <div className="dark-page">
         <div className="column">
           <div className="box">
