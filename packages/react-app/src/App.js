@@ -72,11 +72,27 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
 
 const Contract2Page = ({ amIStaker, rewardAccumulated, claimReward, stakeWallet, getRewardAccumulated, supplyRatio, tokenAddress }) => {
   return (
-    <div>
-      <h1>Contract 2 Page</h1>
-      <p>Wallet Address: {walletAddress}</p>
-      <button onClick={() => claimReward()}>Claim Reward</button>
-      <button onClick={() => stakeWallet()}>Stake Wallet</button>
+    <div className="container">
+      <div className="dark-page">
+        <div className="column">
+          <div className="box">
+            <h3 className="heading">Token Address</h3>
+            <div className="bigger-box">
+              <div className="address-tab">
+                {tokenAddress}
+              </div>
+              <button className="stake-button" onClick={() => stakeWallet()}>Stake Wallet</button>
+              <div className="nested-box">
+                <h3 className="heading">Supply Ratio</h3>
+                <div className="ratio-tab">{supplyRatio}</div>
+                <h3 className="heading">Reward Accumulated</h3>
+                <div className="ratio-tab">{rewardAccumulated}</div>
+                <button className="claim-button" onClick={() => claimReward()}>Claim Rewards</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
