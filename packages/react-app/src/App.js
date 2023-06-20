@@ -49,7 +49,7 @@ const HomePage = ({ connectWallet, walletAddress }) => {
 
 const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rareNFTCap, epicNFTCap, legendaryNFTCap, commonNFTPrice, uncommonNFTPrice, rareNFTPrice, epicNFTPrice, legendaryNFTPrice, commonCount, uncommonCount, rareCount, epicCount, legendaryCount }) => {
   console.log("C1Page, myTotalNFTs:- ", myTotalNFTs);
-
+  const totalNFTsString = Number(myTotalNFTs).toString();
   return (
     <div style={styles.containers}>
       <h3 style={styles.sectionTitle}>Mint NFTs</h3>
@@ -147,12 +147,14 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
           </div>
         </div>
       </div>
+      <h3 style={styles.sectionTitle}>{"My NFT Count " + totalNFTsString}</h3>
+
     </div>
   );
 };
 
 const styles = {
-  
+
   container: {
     background: '#000000',
     color: '#ffffff',
@@ -546,7 +548,7 @@ const App = () => {
     try {
       const result = await camoNFTInstance.methods.getCap(rarity).call();
       console.log("rarity", rarity, " cap ", result)
-      setNFTCapByRarity(rarity, result);
+      setNFTCapByRarity(rarity, Number(result));
     } catch (error) {
       console.error(error)
     }
@@ -558,7 +560,7 @@ const App = () => {
     try {
       const result = await camoNFTInstance.methods.getCount(rarity).call();
       console.log("rarity", rarity, " count ", result)
-      setNFTCountByRarity(rarity, result)
+      setNFTCountByRarity(rarity, Number(result))
     } catch (error) {
       console.error(error)
     }
@@ -717,6 +719,7 @@ const App = () => {
   }
 
   const setNFTPriceByRarity = (rarity, result) => {
+    result = result.toString();
     if (rarity === 0) setCommonNFTPrice(result);
     else if (rarity === 1) setUncommonNFTPrice(result);
     else if (rarity === 2) setRareNFTPrice(result);
