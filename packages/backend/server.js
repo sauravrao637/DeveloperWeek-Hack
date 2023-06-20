@@ -13,7 +13,7 @@ async function main() {
 	const kit = ContractKit.newKitFromWeb3(web3);
 
 	// Set the contract address and ABI
-	const contractAddress = '0x1C1cc2C323d0C0257Dd9Bc05AD7608c4d2a208c0'; // Replace with your contract address
+	const contractAddress = '0x8f2bdbfdD6c7197c033d7976A5242DB9b1FF3c3c'; // Replace with your contract address
 	const contractABI = [
 		{
 			"inputs": [
@@ -411,10 +411,11 @@ async function main() {
 	console.log('Transaction hash:', receipt.transactionHash);
 
 }
-
+debug = true;
+const minutess = debug ? 1 : 70
 const repeatt = () => {
-	setInterval(main, 70 * 1000 * 60);
-	console.log('Waiting for 70 minutes...');
+	setInterval(main, minutess * 1000 * 60);
+	console.log('Waiting for ' + minutess + ' minutes...');
 }
 
 repeatt()

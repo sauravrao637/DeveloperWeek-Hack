@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Link, Routes, Route } from 'react-router-dom';
 import Web3 from 'web3';
-import { addrNFT, addrStaking, addrToken } from './addresses'
+import { addrNFT, addrStaking, addrToken, CHAIN_PARAMS } from './addresses'
 import "./App.css";
+const BigNumber = require('bignumber.js');
 
 const Navbar = ({ walletAddress }) => {
   return (
@@ -12,13 +13,10 @@ const Navbar = ({ walletAddress }) => {
         <nav>
           <ul>
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/nftplace">NFT Collection</Link>
             </li>
             <li>
-              <Link to="/contract1">My NFT</Link>
-            </li>
-            <li>
-              <Link to="/contract2">Staking</Link>
+              <Link to="/">Staking</Link>
             </li>
             <div className="wallet-address">
               <li>Wallet Address: {walletAddress}</li>
@@ -31,15 +29,6 @@ const Navbar = ({ walletAddress }) => {
   );
 };
 
-// const HomePage = ({ connectWallet, walletAddress }) => {
-//   return (
-//     <div>
-//       <h1>Homepage</h1>
-//       <button onClick={connectWallet}>Connect Wallet</button>
-//     </div>
-//   );
-// };
-
 const HomePage = ({ connectWallet, walletAddress }) => {
   return (
     <div style={styles.container}>
@@ -48,54 +37,14 @@ const HomePage = ({ connectWallet, walletAddress }) => {
           Connect Wallet
         </button>
       </div>
-        <div style={styles.buttonContainer}>
-          <button style={styles.button}>Contract 1</button>
-          <button style={styles.button}>Contract 2</button>
-        </div>
+      <div style={styles.buttonContainer}>
+        <button style={styles.button}>Contract 1</button>
+        <button style={styles.button}>Contract 2</button>
       </div>
+    </div>
 
   );
 };
-
-
-// const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rareNFTCap, epicNFTCap, legendaryNFTCap, commonNFTPrice, uncommonNFTPrice, rareNFTPrice, epicNFTPrice, legendaryNFTPrice, commonCount, uncommonCount, rareCount, epicCount, legendaryCount }) => {
-
-//   console.log("C1Page, myTotalNFTs:- ", myTotalNFTs)
-
-//   return (
-//     <div className="container">
-//       <h3 className="section-title">Mint NFTs</h3>
-//       <div>myTotalNFTs = {myTotalNFTs}</div>
-//       <div className="nft-boxes">
-//         <div className="nft-box">
-//           <img src="./common.jpg" alt="Rare NFT" />
-//           <div className="unclickable-tab">Rare</div> <br />
-//           <button className="mintNFT" onClick={() => mintNFT(0)}> Mint </button>
-//         </div>
-//         <div className="nft-box">
-//           <img src="./uncommon.jpg" alt="Rare NFT" />
-//           <div className="unclickable-tab">Common</div> <br />
-//           <button className="mintNFT" onClick={() => mintNFT(1)}> Mint </button>
-//         </div>
-//         <div className="nft-box">
-//           <img src="./rare.jpg" alt="Rare NFT" />
-//           <div className="unclickable-tab">Epic</div> <br />
-//           <button className="mintNFT" onClick={() => mintNFT(2)}> Mint </button>
-//         </div>
-//         <div className="nft-box">
-//           <img src="./epic.jpg" alt="Rare NFT" />
-//           <div className="unclickable-tab">Rare</div> <br />
-//           <button className="mintNFT" onClick={() => mintNFT(3)}> Mint </button>
-//         </div>
-//         <div className="nft-box">
-//           <img src="./legendary.jpg" alt="Rare NFT" />
-//           <div className="unclickable-tab">Legendary</div> <br />
-//           <button className="mintNFT" onClick={() => mintNFT(4)}> Mint </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 
 
 const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rareNFTCap, epicNFTCap, legendaryNFTCap, commonNFTPrice, uncommonNFTPrice, rareNFTPrice, epicNFTPrice, legendaryNFTPrice, commonCount, uncommonCount, rareCount, epicCount, legendaryCount }) => {
@@ -112,11 +61,11 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
               <div style={styles.unclickableTab}>Common</div>
               <div>
                 <span style={styles.infoLabel}>Price: </span>
-                <span style={styles.infoValue}>123</span>
+                <span style={styles.infoValue}>{commonNFTPrice}</span>
               </div>
               <div>
                 <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>123</span>
+                <span style={styles.infoValue}>{commonNFTCap - commonCount}</span>
               </div>
               <div style={styles.buttonContainer}></div>
               <button style={styles.mintButton} onClick={() => mintNFT(0)}>
@@ -130,11 +79,11 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
               <div style={styles.unclickableTab}>Uncommon</div>
               <div>
                 <span style={styles.infoLabel}>Price: </span>
-                <span style={styles.infoValue}>123</span>
+                <span style={styles.infoValue}>{uncommonNFTPrice}</span>
               </div>
               <div>
                 <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>123</span>
+                <span style={styles.infoValue}>{uncommonNFTCap - uncommonCount}</span>
               </div>
               <div style={styles.buttonContainer}></div>
               <button style={styles.mintButton} onClick={() => mintNFT(1)}>
@@ -148,11 +97,11 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
               <div style={styles.unclickableTab}>Rare</div>
               <div>
                 <span style={styles.infoLabel}>Price: </span>
-                <span style={styles.infoValue}>123</span>
+                <span style={styles.infoValue}>{rareNFTPrice}</span>
               </div>
               <div>
                 <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>123</span>
+                <span style={styles.infoValue}>{rareNFTCap - rareCount}</span>
               </div>
               <div style={styles.buttonContainer}></div>
               <button style={styles.mintButton} onClick={() => mintNFT(2)}>
@@ -166,11 +115,11 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
               <div style={styles.unclickableTab}>Epic</div>
               <div>
                 <span style={styles.infoLabel}>Price: </span>
-                <span style={styles.infoValue}>123</span>
+                <span style={styles.infoValue}>{epicNFTPrice}</span>
               </div>
               <div>
                 <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>123</span>
+                <span style={styles.infoValue}>{epicNFTCap - epicCount}</span>
               </div>
               <div style={styles.buttonContainer}></div>
               <button style={styles.mintButton} onClick={() => mintNFT(3)}>
@@ -184,11 +133,11 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
               <div style={styles.unclickableTab}>Legendary</div>
               <div>
                 <span style={styles.infoLabel}>Price: </span>
-                <span style={styles.infoValue}>123</span>
+                <span style={styles.infoValue}>{legendaryNFTPrice}</span>
               </div>
               <div>
                 <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>123</span>
+                <span style={styles.infoValue}>{legendaryNFTCap - legendaryCount}</span>
               </div>
               <div style={styles.buttonContainer}></div>
               <button style={styles.mintButton} onClick={() => mintNFT(4)}>
@@ -214,7 +163,7 @@ const styles = {
     alignItems: 'center',
     textAlign: 'center',
   },
-  
+
   header: {
     position: 'fixed',
     top: '10px',
@@ -231,7 +180,7 @@ const styles = {
   content: {
     marginTop: '60px',
   },
-  
+
   buttonContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -257,7 +206,7 @@ const styles = {
     alignItems: 'center',
     overflow: 'hidden',
   },
-  
+
   sectionTitle: {
     fontSize: '24px',
     fontWeight: 'bold',
@@ -270,7 +219,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
   },
-  
+
   carousel: {
     display: 'flex',
   },
@@ -341,7 +290,9 @@ const Contract2Page = ({ amIStaker, rewardAccumulated, claimReward, stakeWallet,
               <div className="address-tab">
                 {tokenAddress}
               </div>
-              <button className="stake-button" onClick={() => stakeWallet()}>Stake Wallet</button>
+              {!amIStaker &&
+                <button className="stake-button" onClick={() => stakeWallet()}>Stake Wallet</button>
+              }
               <div className="nested-box">
                 <h3 className="heading">Supply Ratio</h3>
                 <div className="ratio-tab">{supplyRatio}</div>
@@ -362,6 +313,7 @@ const App = () => {
   const [web3, setWeb3] = useState(null);
   const [camoNFTInstance, setNFTInstance] = useState(null);
   const [camoStakingInstance, setStakingInstance] = useState(null);
+  const [camoTokenInstance, setTokenInstance] = useState(null);
 
   // NFT Variables
   const [nftBasePrice, setNFTBasePrice] = useState(0);
@@ -396,16 +348,26 @@ const App = () => {
   const [leftSupply, setLeftSupply] = useState('');
   const [rewardAccumulated, setRewardAccumulated] = useState('');
 
+  // tokenVariables
+  const [tokenBalance, setTokenBalance] = useState('')
 
   useEffect(() => {
     connectWallet();
   }, []);
 
   useEffect(() => {
+    if (!web3) {
+      console.error("web3 is NULL")
+      return;
+    }
     loadContracts();
   }, [web3]);
 
   useEffect(() => {
+    if (!camoNFTInstance) {
+      console.error("camoNFTInstance is NULL")
+      return;
+    }
     getNFTBasePrice();
     getMyTotalNFTs();
     let i = 0;
@@ -418,6 +380,10 @@ const App = () => {
   }, [camoNFTInstance])
 
   useEffect(() => {
+    if (!camoStakingInstance) {
+      console.error("camoStakingInstance is NULL")
+      return;
+    }
     checkStaker()
     let i = 0;
     do {
@@ -431,30 +397,23 @@ const App = () => {
 
   }, [camoStakingInstance])
 
+  useEffect(() => {
+    if (!camoTokenInstance) {
+      console.error("camoTokenInstance is NULL")
+      return;
+    }
+    getTokenBalance()
+  }, [camoTokenInstance])
 
-  const ALFAJORES_PARAMS = {
-    chainId: "0xaef3",
-    chainName: "Alfajores Testnet",
-    nativeCurrency: { name: "Alfajores Celo", symbol: "A-CELO", decimals: 18 },
-    rpcUrls: ["https://alfajores-forno.celo-testnet.org"],
-    blockExplorerUrls: ["https://alfajores-blockscout.celo-testnet.org/"],
-    iconUrls: ["future"],
-  };
 
-  const CANNOLI_PARAMS = {
-    chainId: "0x43ab",
-    chainName: "Cannoli Testnet",
-    nativeCurrency: { name: "Cannoli Celo", symbol: "CELO", decimals: 18 },
-    rpcUrls: ["https://forno.cannoli.celo-testnet.org"],
-    blockExplorerUrls: ["https://explorer.celo.org/cannoli/"],
-    iconUrls: ["future"],
-  };
 
   const connectWallet = async () => {
+    console.log("connectWallet() called")
+
     try {
       await window.ethereum.request({
         method: 'wallet_addEthereumChain',
-        params: [ALFAJORES_PARAMS],
+        params: [CHAIN_PARAMS],
       });
 
       if (window.ethereum) {
@@ -477,16 +436,21 @@ const App = () => {
   };
 
   const loadContracts = () => {
+    console.log("loadContracts() called")
+
     try {
       if (!web3) throw new Error("Web3 is null")
       loadNFTContract()
       loadStakingContract()
+      loadTokenContract()
     } catch (error) {
       console.error(error);
     }
   }
 
   const loadNFTContract = async () => {
+    console.log("loadNFTContract() called")
+
     try {
       console.log("web3:- ", web3);
       const web3Instance = web3; // Access the web3 state variable
@@ -505,6 +469,8 @@ const App = () => {
   }
 
   const loadStakingContract = async () => {
+    console.log("loadStakingContract() called")
+
     try {
       console.log("-----------------loading staking contract-----------------")
       console.log("web3:- ", web3);
@@ -524,8 +490,32 @@ const App = () => {
       console.log("-----------------failed loading staking contract-----------------")
     }
   }
+
+  const loadTokenContract = async () => {
+    console.log("loadTokenContract() called")
+
+    try {
+      console.log("web3:- ", web3);
+      const web3Instance = web3; // Access the web3 state variable
+      let { abi } = require('./contract_abis/CamoToken.json');
+      const camoTokenAbi = { abi }
+
+      console.log("camoTokenAbi:- ", camoTokenAbi);
+
+      const camoTokenInstance = new web3Instance.eth.Contract(camoTokenAbi.abi, addrToken);
+
+      console.log("camoTokenInstance:- ", camoTokenInstance);
+      setTokenInstance(camoTokenInstance);
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+
   // NFT Functions
   const getNFTBasePrice = async () => {
+    console.log("getNFTBasePrice() called")
+
     try {
       const result = await camoNFTInstance.methods.BASE_PRICE().call();
       console.log("NFT BasePrice = ", result);
@@ -536,6 +526,8 @@ const App = () => {
   }
 
   const getMyTotalNFTs = async () => {
+    console.log("getMyTotalNFTs() called")
+
     try {
       const result = await camoNFTInstance.methods
         .balanceOf(window.web3.currentProvider.selectedAddress)  //function in contract
@@ -548,6 +540,8 @@ const App = () => {
   }
 
   const getNFTCap = async (rarity) => {
+    console.log("getNFTCap(_) called", rarity)
+
     try {
       const result = await camoNFTInstance.methods.getCap(rarity).call();
       console.log("rarity", rarity, " cap ", result)
@@ -558,6 +552,8 @@ const App = () => {
   }
 
   const getNFTCount = async (rarity) => {
+    console.log("getNFTCount(_) called ", rarity)
+
     try {
       const result = await camoNFTInstance.methods.getCount(rarity).call();
       console.log("rarity", rarity, " count ", result)
@@ -568,6 +564,8 @@ const App = () => {
   }
 
   const getNFTPrice = async (rarity) => {
+    console.log("getNFTPrice(_) called ", rarity)
+
     try {
       const result = await camoNFTInstance.methods.getPrice(rarity).call();
       console.log("rarity", rarity, " prcie ", result)
@@ -578,6 +576,7 @@ const App = () => {
   }
 
   const mintNFT = async (rarity) => {
+    console.log("mintNFT(_) called ", rarity)
     try {
       const price = web3.utils.toWei(getPriceByRarity(rarity).toString(), "wei");
       console.log("priceInWei ", price)
@@ -591,8 +590,10 @@ const App = () => {
   // Staking Functions
 
   const claimReward = async () => {
+    console.log("claimReward() called")
+
     try {
-      const result = await camoStakingInstance.methods.claimReward().call({ from: window.web3.currentProvider.selectedAddress });
+      const result = await camoStakingInstance.methods.claimReward().send({ from: window.web3.currentProvider.selectedAddress });
       console.log("claimReward result:- ", result);
     } catch (error) {
       console.error(error);
@@ -600,6 +601,8 @@ const App = () => {
   }
 
   const stakeWallet = async () => {
+    console.log("stakeWallet() called")
+
     try {
       const result = await camoStakingInstance.methods.stakeWallet().send({ from: window.web3.currentProvider.selectedAddress });
       console.log("stake wallet result:- ", result);
@@ -609,9 +612,11 @@ const App = () => {
   }
 
   const checkStaker = async () => {
+    console.log("checkStaker() called")
+
     try {
-      const result = await camoStakingInstance.methods.amIStaker.call();
-      console.log("staker status: ", true);
+      const result = await camoStakingInstance.methods.amIStaker.call({ from: window.web3.currentProvider.selectedAddress });
+      console.log("staker status: ", result);
       setStakerStatus(true)
     } catch (error) {
       console.error(error);
@@ -621,8 +626,10 @@ const App = () => {
   }
 
   const getRewardRate = async (rarity) => {
+    console.log("getRewardRate(_) called ", rarity)
+
     try {
-      const result = await camoStakingInstance.getRate(rarity).call();
+      const result = await camoStakingInstance.methods.getRate(rarity).call();
       console.log("reward rate for ", rarity, " is", result);
       setRewardRateByRarity(rarity, result);
     } catch (error) {
@@ -631,18 +638,23 @@ const App = () => {
   }
 
   const getSupplyRatio = async () => {
+    console.log("getSupplyRatio() called")
+
     try {
-      const result = await camoStakingInstance.getSupplyRatio().call();
-      console.log("supply ratio =", result.toString());
-      setSupplyRatio(result.toString);
+      const result = await camoStakingInstance.methods.getSupplyRatio().call();
+      const sr = (new BigNumber(result.toString())).dividedBy(10 ** 16);
+      console.log("supply ratio =", sr.toString());
+      setSupplyRatio(sr.toString() + "%");
     } catch (error) {
       console.error(error);
     }
   }
 
   const getLeftSupply = async () => {
+    console.log("getLeftSupply() called")
+
     try {
-      const result = await camoStakingInstance.leftSupply().call();
+      const result = await camoStakingInstance.methods.leftSupply().call();
       console.log("left supply = ", result.toString());
       setLeftSupply(result.toString());
     } catch (error) {
@@ -651,15 +663,31 @@ const App = () => {
   }
 
   const getRewardAccumulated = async () => {
+    console.log("getRewardAccumulated() called")
+
     try {
-      const result = await camoStakingInstance.rewardAccumulated().call();
-      console.log("accumulated = ", result.toString())
-      setRewardAccumulated(result.toString())
+      const result = await camoStakingInstance.methods.rewardAccumulated().call({ from: window.web3.currentProvider.selectedAddress });
+      const ra = (new BigNumber(result.toString())).dividedBy(10 ** 18);
+      console.log("accumulated = ", ra.toString())
+      setRewardAccumulated(ra.toString())
     } catch (error) {
       console.error(error);
     }
   }
 
+  // Token functions
+
+  const getTokenBalance = async () => {
+    try {
+      console.log("getTokenBalance() called")
+      const result = await camoTokenInstance.methods.balanceOf(window.web3.currentProvider.selectedAddress).call()
+      const tb = (new BigNumber(result.toString())).dividedBy(10 ** 18);
+      console.log("token balance", tb.toString())
+      setTokenBalance(tb.toString())
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   // utility functions
 
@@ -708,11 +736,11 @@ const App = () => {
       <div>
         <Navbar walletAddress={walletAddress} />
         <Routes>
-          <Route path="/" element={<HomePage walletAddress={walletAddress} />} />
+          {/* <Route path="/" element={<HomePage walletAddress={walletAddress} />} /> */}
 
-          <Route path="/contract1" element={<Contract1Page myTotalNFTs={myTotalNFTs} mintNFT={mintNFT} commonNFTCap={commonNFTCap} uncommonNFTCap={uncommonNFTCap} rareNFTCap={rareNFTCap} epicNFTCap={epicNFTCap} legendaryNFTCap={legendaryNFTCap} commonNFTPrice={commonNFTPrice} uncommonNFTPrice={uncommonNFTPrice} rareNFTPrice={rareNFTPrice} epicNFTPrice={epicNFTPrice} legendaryNFTPrice={legendaryNFTPrice} commonCount={commonCount} uncommonCount={uncommonCount} rareCount={rareCount} epicCount={epicCount} legendaryCount={legendaryCount} />} />
+          <Route path="/nftplace" element={<Contract1Page myTotalNFTs={myTotalNFTs} mintNFT={mintNFT} commonNFTCap={commonNFTCap} uncommonNFTCap={uncommonNFTCap} rareNFTCap={rareNFTCap} epicNFTCap={epicNFTCap} legendaryNFTCap={legendaryNFTCap} commonNFTPrice={commonNFTPrice} uncommonNFTPrice={uncommonNFTPrice} rareNFTPrice={rareNFTPrice} epicNFTPrice={epicNFTPrice} legendaryNFTPrice={legendaryNFTPrice} commonCount={commonCount} uncommonCount={uncommonCount} rareCount={rareCount} epicCount={epicCount} legendaryCount={legendaryCount} />} />
 
-          <Route path="/contract2" element={<Contract2Page amIStaker={amIStaker} rewardAccumulated={rewardAccumulated} claimReward={claimReward} stakeWallet={stakeWallet} getRewardAccumulated={getRewardAccumulated} supplyRatio={supplyRatio} tokenAddress={addrToken} />} />
+          <Route path="/" element={<Contract2Page amIStaker={amIStaker} rewardAccumulated={rewardAccumulated} claimReward={claimReward} stakeWallet={stakeWallet} getRewardAccumulated={getRewardAccumulated} supplyRatio={supplyRatio} tokenAddress={addrToken} />} />
         </Routes>
       </div>
     </BrowserRouter>
