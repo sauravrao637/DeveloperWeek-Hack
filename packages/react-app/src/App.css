@@ -87,23 +87,27 @@ body {
 }
 
 .wallet-address {
-  font-size: 14px;
+  /* font-size: 14px; */
   border: 2px solid #333;
   border-radius: 50px;
   padding: 5px 10px;
-  width: 118px;
-  height: 21px;
+  /* width: 118px;
+  height: 21px; */
   font-family: "DM Sans";
   font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 21px;
+  /* font-weight: 500;
+  line-height: 21px; */
   color: #76808a;
   flex: none;
-  order: 0;
-  flex-grow: 0;
+  /* order: 0;
+  flex-grow: 0; */
   cursor: pointer;
   color: #007bff;
+  fontSize: 2px;
+  overflow: hidden;
+  textOverflow: ellipsis;
+  whiteSpace: nowrap;
+  /* width: 400px; */
 }
 
 /* Updated styles for li elements */

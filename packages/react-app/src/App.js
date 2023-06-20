@@ -19,7 +19,7 @@ const Navbar = ({ walletAddress }) => {
               <Link to="/">Staking</Link>
             </li>
             <div className="wallet-address">
-              <li>Wallet Address: {walletAddress}</li>
+              <li>{walletAddress}</li>
             </div>
           </ul>
         </nav>
@@ -152,6 +152,7 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
 };
 
 const styles = {
+  
   container: {
     background: '#000000',
     color: '#ffffff',
@@ -199,7 +200,7 @@ const styles = {
     background: '#222',
     color: '#fff',
     width: '100vw',
-    height: '150vh',
+    height: '70vh',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
