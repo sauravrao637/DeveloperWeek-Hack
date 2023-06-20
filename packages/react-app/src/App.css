@@ -37,9 +37,7 @@
   }
 }
 
-
-<<<<<<< HEAD
-=======
+/* Staking Design */
 .dark-page {
   display: grid;
   grid-template-columns: 1fr;
@@ -134,4 +132,5 @@ button:hover {
 button.stake-button {
   margin-bottom: 15px;
 }
->>>>>>> e0c38a6ebb80843c3a7080227f7bc96df39d2fb7
+
+/* END */
