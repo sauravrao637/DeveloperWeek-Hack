@@ -37,6 +37,108 @@
   }
 }
 
+/* Design for the NavBar */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #222;
+  color: #fff;
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+}
+
+.navigation ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.navigation li {
+  font-size: 18px;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #222;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.company-name {
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "Clash Display";
+  width: 180px;
+  height: 24px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 24px;
+  color: #fff;
+}
+
+.wallet-address {
+  font-size: 14px;
+  border: 2px solid #333;
+  border-radius: 50px;
+  padding: 5px 10px;
+  width: 118px;
+  height: 21px;
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 21px;
+  color: #76808a;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  cursor: pointer;
+  color: #007bff;
+}
+
+/* Updated styles for li elements */
+.navigation li {
+  color: #fff;
+  position: relative;
+}
+
+.navigation li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navigation li:hover {
+  color: #fff;
+}
+
+.navigation li::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #ff0000;
+  transition: width 0.3s ease;
+}
+
+.navigation li:hover::after {
+  width: 100%;
+}
+
+
+/* END NAVBAR */
+
 /* Staking Design */
 .dark-page {
   display: grid;

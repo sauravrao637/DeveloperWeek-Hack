@@ -6,20 +6,28 @@ import "./App.css";
 
 const Navbar = ({ walletAddress }) => {
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/contract1">Contract 1</Link>
-        </li>
-        <li>
-          <Link to="/contract2">Contract 2</Link>
-        </li>
-        <li>Wallet Address: {walletAddress}</li>
-      </ul>
-    </nav>
+    <div className="navbar">
+      <div className="company-name">VaultBoost</div>
+      <div className="navigation">
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/contract1">My NFT</Link>
+            </li>
+            <li>
+              <Link to="/contract2">Staking</Link>
+            </li>
+            <div className="wallet-address">
+              <li>Wallet Address: {walletAddress}</li>
+            </div>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
   );
 };
 
