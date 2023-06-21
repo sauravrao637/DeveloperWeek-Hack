@@ -5,6 +5,7 @@ import { addrNFT, addrStaking, addrToken, CHAIN_PARAMS } from './addresses'
 import "./App.css";
 const BigNumber = require('bignumber.js');
 
+const bnZero = new BigNumber(0);
 const Navbar = ({ walletAddress }) => {
   return (
     <div className="navbar">
@@ -19,7 +20,7 @@ const Navbar = ({ walletAddress }) => {
               <Link to="/">Staking</Link>
             </li>
             <div className="wallet-address">
-              <li>{walletAddress}</li>
+              <li>{walletAddress.toString()}</li>
             </div>
           </ul>
         </nav>
@@ -29,27 +30,23 @@ const Navbar = ({ walletAddress }) => {
   );
 };
 
-const HomePage = ({ connectWallet, walletAddress }) => {
-  return (
-    <div style={styles.container}>
-      <div style={styles.header}>
-        <button style={styles.walletButton} onClick={connectWallet}>
-          Connect Wallet
-        </button>
-      </div>
-      <div style={styles.buttonContainer}>
-        <button style={styles.button}>Contract 1</button>
-        <button style={styles.button}>Contract 2</button>
-      </div>
-    </div>
-
-  );
-};
-
 
 const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rareNFTCap, epicNFTCap, legendaryNFTCap, commonNFTPrice, uncommonNFTPrice, rareNFTPrice, epicNFTPrice, legendaryNFTPrice, commonCount, uncommonCount, rareCount, epicCount, legendaryCount }) => {
   console.log("C1Page, myTotalNFTs:- ", myTotalNFTs);
-  const totalNFTsString = Number(myTotalNFTs).toString();
+  myTotalNFTs = myTotalNFTs.toString();
+  commonNFTPrice = commonNFTPrice.toString()
+  uncommonNFTPrice = uncommonNFTPrice.toString();
+  rareNFTPrice = rareNFTPrice.toString();
+  epicNFTPrice = epicNFTPrice.toString();
+  legendaryNFTPrice = legendaryNFTPrice.toString();
+
+  const totalNFTsString = (new BigNumber(myTotalNFTs)).toString();
+  const commonLeft = (commonNFTCap - commonCount).toString();
+  const uncommonLeft = (uncommonNFTCap - uncommonCount).toString();
+  const rareLeft = (rareNFTCap - rareCount).toString();
+  const epicLeft = (epicNFTCap - epicCount).toString();
+  const legendaryLeft = (legendaryNFTCap - legendaryCount).toString();
+
   return (
     <div style={styles.containers}>
       <h3 style={styles.sectionTitle}>Mint NFTs</h3>
@@ -65,7 +62,7 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
               </div>
               <div>
                 <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>{commonNFTCap - commonCount}</span>
+                <span style={styles.infoValue}>{commonLeft}</span>
               </div>
               <div style={styles.buttonContainer}></div>
               <button style={styles.mintButton} onClick={() => mintNFT(0)}>
@@ -83,7 +80,7 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
               </div>
               <div>
                 <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>{uncommonNFTCap - uncommonCount}</span>
+                <span style={styles.infoValue}>{uncommonLeft}</span>
               </div>
               <div style={styles.buttonContainer}></div>
               <button style={styles.mintButton} onClick={() => mintNFT(1)}>
@@ -101,7 +98,7 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
               </div>
               <div>
                 <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>{rareNFTCap - rareCount}</span>
+                <span style={styles.infoValue}>{rareLeft}</span>
               </div>
               <div style={styles.buttonContainer}></div>
               <button style={styles.mintButton} onClick={() => mintNFT(2)}>
@@ -119,7 +116,7 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
               </div>
               <div>
                 <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>{epicNFTCap - epicCount}</span>
+                <span style={styles.infoValue}>{epicLeft}</span>
               </div>
               <div style={styles.buttonContainer}></div>
               <button style={styles.mintButton} onClick={() => mintNFT(3)}>
@@ -137,7 +134,7 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
               </div>
               <div>
                 <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>{legendaryNFTCap - legendaryCount}</span>
+                <span style={styles.infoValue}>{legendaryLeft}</span>
               </div>
               <div style={styles.buttonContainer}></div>
               <button style={styles.mintButton} onClick={() => mintNFT(4)}>
@@ -283,6 +280,9 @@ const styles = {
 
 
 const Contract2Page = ({ amIStaker, rewardAccumulated, claimReward, stakeWallet, getRewardAccumulated, supplyRatio, tokenAddress }) => {
+  rewardAccumulated = rewardAccumulated.toString();
+  supplyRatio = supplyRatio.toString();
+
   return (
     <div className="Stake-container">
       <div className="dark-page">
@@ -312,47 +312,47 @@ const Contract2Page = ({ amIStaker, rewardAccumulated, claimReward, stakeWallet,
 };
 
 const App = () => {
-  const [walletAddress, setWalletAddress] = useState('');
+  const [walletAddress, setWalletAddress] = useState('_');
   const [web3, setWeb3] = useState(null);
   const [camoNFTInstance, setNFTInstance] = useState(null);
   const [camoStakingInstance, setStakingInstance] = useState(null);
   const [camoTokenInstance, setTokenInstance] = useState(null);
 
   // NFT Variables
-  const [nftBasePrice, setNFTBasePrice] = useState(0);
-  const [myTotalNFTs, setMyTotalNFTs] = useState(0);
+  const [nftBasePrice, setNFTBasePrice] = useState(bnZero);
+  const [myTotalNFTs, setMyTotalNFTs] = useState(bnZero);
 
-  const [commonNFTCap, setCommonNFTCap] = useState(0);
-  const [uncommonNFTCap, setUncommonNFTCap] = useState(0);
-  const [rareNFTCap, setRareNFTCap] = useState(0);
-  const [epicNFTCap, setEpicNFTCap] = useState(0);
-  const [legendaryNFTCap, setLegendaryNFTCap] = useState(0);
+  const [commonNFTCap, setCommonNFTCap] = useState(bnZero);
+  const [uncommonNFTCap, setUncommonNFTCap] = useState(bnZero);
+  const [rareNFTCap, setRareNFTCap] = useState(bnZero);
+  const [epicNFTCap, setEpicNFTCap] = useState(bnZero);
+  const [legendaryNFTCap, setLegendaryNFTCap] = useState(bnZero);
 
-  const [commonCount, setCommonNFTCount] = useState(0);
-  const [uncommonCount, setUncommonNFTCount] = useState(0);
-  const [rareCount, setRareNFTCount] = useState(0);
-  const [epicCount, setEpicNFTCount] = useState(0);
-  const [legendaryCount, setLegendaryNFTCount] = useState(0);
+  const [commonCount, setCommonNFTCount] = useState(bnZero);
+  const [uncommonCount, setUncommonNFTCount] = useState(bnZero);
+  const [rareCount, setRareNFTCount] = useState(bnZero);
+  const [epicCount, setEpicNFTCount] = useState(bnZero);
+  const [legendaryCount, setLegendaryNFTCount] = useState(bnZero);
 
-  const [commonNFTPrice, setCommonNFTPrice] = useState(0);
-  const [uncommonNFTPrice, setUncommonNFTPrice] = useState(0);
-  const [rareNFTPrice, setRareNFTPrice] = useState(0);
-  const [epicNFTPrice, setEpicNFTPrice] = useState(0);
-  const [legendaryNFTPrice, setLegendaryNFTPrice] = useState(0);
+  const [commonNFTPrice, setCommonNFTPrice] = useState(bnZero);
+  const [uncommonNFTPrice, setUncommonNFTPrice] = useState(bnZero);
+  const [rareNFTPrice, setRareNFTPrice] = useState(bnZero);
+  const [epicNFTPrice, setEpicNFTPrice] = useState(bnZero);
+  const [legendaryNFTPrice, setLegendaryNFTPrice] = useState(bnZero);
 
   // Staking Variables
   const [amIStaker, setStakerStatus] = useState(false);
-  const [baseRewardRateCommon, setBaseRewardRateCommon] = useState(0);
-  const [baseRewardRateUncommon, setBaseRewardRateUncommon] = useState(0);
-  const [baseRewardRateRare, setBaseRewardRateRare] = useState(0);
-  const [baseRewardRateEpic, setBaseRewardRateEpic] = useState(0);
-  const [baseRewardRateLegendary, setBaseRewardRateLegendary] = useState(0);
-  const [supplyRatio, setSupplyRatio] = useState('');
-  const [leftSupply, setLeftSupply] = useState('');
-  const [rewardAccumulated, setRewardAccumulated] = useState('');
+  const [baseRewardRateCommon, setBaseRewardRateCommon] = useState(bnZero);
+  const [baseRewardRateUncommon, setBaseRewardRateUncommon] = useState(bnZero);
+  const [baseRewardRateRare, setBaseRewardRateRare] = useState(bnZero);
+  const [baseRewardRateEpic, setBaseRewardRateEpic] = useState(bnZero);
+  const [baseRewardRateLegendary, setBaseRewardRateLegendary] = useState(bnZero);
+  const [supplyRatio, setSupplyRatio] = useState(bnZero);
+  const [leftSupply, setLeftSupply] = useState(bnZero);
+  const [rewardAccumulated, setRewardAccumulated] = useState(bnZero);
 
   // tokenVariables
-  const [tokenBalance, setTokenBalance] = useState('')
+  const [tokenBalance, setTokenBalance] = useState(bnZero)
 
   useEffect(() => {
     connectWallet();
@@ -393,7 +393,7 @@ const App = () => {
       getRewardRate(i);
       i++;
     } while (i < 5);
-    // 
+
     getSupplyRatio()
     getLeftSupply()
     getRewardAccumulated()
@@ -440,9 +440,9 @@ const App = () => {
 
   const loadContracts = () => {
     console.log("loadContracts() called")
-
+    if (!web3) throw new Error("Web3 is null")
+    console.log("web3:- ", web3);
     try {
-      if (!web3) throw new Error("Web3 is null")
       loadNFTContract()
       loadStakingContract()
       loadTokenContract()
@@ -455,7 +455,6 @@ const App = () => {
     console.log("loadNFTContract() called")
 
     try {
-      console.log("web3:- ", web3);
       const web3Instance = web3; // Access the web3 state variable
       let { abi } = require('./contract_abis/CamoNFT.json');
       const camoNFTAbi = { abi }
@@ -476,7 +475,7 @@ const App = () => {
 
     try {
       console.log("-----------------loading staking contract-----------------")
-      console.log("web3:- ", web3);
+
       const web3Instance = web3; // Access the web3 state variable
       let { abi } = require('./contract_abis/CamoStaking.json');
       const camoStakingAbi = { abi }
@@ -498,7 +497,6 @@ const App = () => {
     console.log("loadTokenContract() called")
 
     try {
-      console.log("web3:- ", web3);
       const web3Instance = web3; // Access the web3 state variable
       let { abi } = require('./contract_abis/CamoToken.json');
       const camoTokenAbi = { abi }
@@ -533,7 +531,7 @@ const App = () => {
 
     try {
       const result = await camoNFTInstance.methods
-        .balanceOf(window.web3.currentProvider.selectedAddress)  //function in contract
+        .balanceOf(window.web3.currentProvider.selectedAddress)
         .call();
       console.log("mY Total NFTs = ", result);
       setMyTotalNFTs(result);
@@ -548,7 +546,7 @@ const App = () => {
     try {
       const result = await camoNFTInstance.methods.getCap(rarity).call();
       console.log("rarity", rarity, " cap ", result)
-      setNFTCapByRarity(rarity, Number(result));
+      setNFTCapByRarity(rarity, new BigNumber(result));
     } catch (error) {
       console.error(error)
     }
@@ -560,7 +558,7 @@ const App = () => {
     try {
       const result = await camoNFTInstance.methods.getCount(rarity).call();
       console.log("rarity", rarity, " count ", result)
-      setNFTCountByRarity(rarity, Number(result))
+      setNFTCountByRarity(rarity, new BigNumber(result))
     } catch (error) {
       console.error(error)
     }
@@ -572,7 +570,7 @@ const App = () => {
     try {
       const result = await camoNFTInstance.methods.getPrice(rarity).call();
       console.log("rarity", rarity, " prcie ", result)
-      setNFTPriceByRarity(rarity, result)
+      setNFTPriceByRarity(rarity, new BigNumber(result))
     } catch (error) {
       console.error(error)
     }
@@ -634,7 +632,7 @@ const App = () => {
     try {
       const result = await camoStakingInstance.methods.getRate(rarity).call();
       console.log("reward rate for ", rarity, " is", result);
-      setRewardRateByRarity(rarity, result);
+      setRewardRateByRarity(rarity, new BigNumber(result));
     } catch (error) {
       console.error(error);
     }
@@ -647,7 +645,7 @@ const App = () => {
       const result = await camoStakingInstance.methods.getSupplyRatio().call();
       const sr = (new BigNumber(result.toString())).dividedBy(10 ** 16);
       console.log("supply ratio =", sr.toString());
-      setSupplyRatio(sr.toString() + "%");
+      setSupplyRatio(sr);
     } catch (error) {
       console.error(error);
     }
@@ -659,7 +657,8 @@ const App = () => {
     try {
       const result = await camoStakingInstance.methods.leftSupply().call();
       console.log("left supply = ", result.toString());
-      setLeftSupply(result.toString());
+      const bn = new BigNumber(result)
+      setLeftSupply(bn);
     } catch (error) {
       console.error(error)
     }
@@ -672,7 +671,7 @@ const App = () => {
       const result = await camoStakingInstance.methods.rewardAccumulated().call({ from: window.web3.currentProvider.selectedAddress });
       const ra = (new BigNumber(result.toString())).dividedBy(10 ** 18);
       console.log("accumulated = ", ra.toString())
-      setRewardAccumulated(ra.toString())
+      setRewardAccumulated(ra)
     } catch (error) {
       console.error(error);
     }
@@ -686,7 +685,7 @@ const App = () => {
       const result = await camoTokenInstance.methods.balanceOf(window.web3.currentProvider.selectedAddress).call()
       const tb = (new BigNumber(result.toString())).dividedBy(10 ** 18);
       console.log("token balance", tb.toString())
-      setTokenBalance(tb.toString())
+      setTokenBalance(tb)
     } catch (error) {
       console.error(error)
     }
