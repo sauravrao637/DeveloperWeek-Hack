@@ -359,6 +359,30 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    getRewardAccumulated();
+    getTokenBalance()
+  }, [amIStaker]);
+
+  useEffect(() => {
+    if (!web3) {
+      console.error("web3 is NULL")
+      return;
+    }
+    listenMMAccount();
+  }, [web3]);
+
+  const listenMMAccount = async () => {
+    try {
+      const web3Instance = web3;
+      window.ethereum.on("accountsChanged", async function () {
+        window.location.reload();
+      });
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
     if (!web3) {
       console.error("web3 is NULL")
       return;
@@ -380,7 +404,7 @@ const App = () => {
       getNFTPrice(i);
       i++;
     } while (i < 5);
-  }, [camoNFTInstance])
+  }, [camoNFTInstance, walletAddress])
 
   useEffect(() => {
     if (!camoStakingInstance) {
@@ -398,7 +422,7 @@ const App = () => {
     getLeftSupply()
     getRewardAccumulated()
 
-  }, [camoStakingInstance])
+  }, [camoStakingInstance, walletAddress])
 
   useEffect(() => {
     if (!camoTokenInstance) {
@@ -406,7 +430,7 @@ const App = () => {
       return;
     }
     getTokenBalance()
-  }, [camoTokenInstance])
+  }, [camoTokenInstance, walletAddress])
 
 
 
@@ -576,6 +600,14 @@ const App = () => {
     }
   }
 
+  const updateLeftSupply = async () => {
+    let i = 0;
+    do {
+      getNFTCount(i);
+      i++;
+    } while (i < 5);
+  }
+
   const mintNFT = async (rarity) => {
     console.log("mintNFT(_) called ", rarity)
     try {
@@ -583,6 +615,8 @@ const App = () => {
       console.log("priceInWei ", price)
       const result = await camoNFTInstance.methods.mintNFT(rarity).send({ from: window.web3.currentProvider.selectedAddress, value: price });
       console.log("minNFT", result)
+      getMyTotalNFTs()
+      updateLeftSupply()
     } catch (error) {
       console.error(error)
     }
@@ -607,6 +641,7 @@ const App = () => {
     try {
       const result = await camoStakingInstance.methods.stakeWallet().send({ from: window.web3.currentProvider.selectedAddress });
       console.log("stake wallet result:- ", result);
+      checkStaker()
     } catch (error) {
       console.error(error);
     }
@@ -666,7 +701,10 @@ const App = () => {
 
   const getRewardAccumulated = async () => {
     console.log("getRewardAccumulated() called")
-
+    if (!amIStaker) {
+      console.error("Not a staker");
+      return;
+    }
     try {
       const result = await camoStakingInstance.methods.rewardAccumulated().call({ from: window.web3.currentProvider.selectedAddress });
       const ra = (new BigNumber(result.toString())).dividedBy(10 ** 18);
