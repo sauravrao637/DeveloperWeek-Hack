@@ -16,7 +16,7 @@ contract CamoNFT is ERC721, Ownable {
         uint256 stakeClaimedTimeStamp;
     }
 
-    uint256 constant public BASE_PRICE = 1_000_000 wei;
+    uint256 constant public BASE_PRICE = 100_000_000_000_000_000 wei;
     uint256 constant public COMMON_PRICE = BASE_PRICE *1;
     uint256 constant public UNCOMMON_PRICE = BASE_PRICE *2;
     uint256 constant public RARE_PRICE = BASE_PRICE *3;

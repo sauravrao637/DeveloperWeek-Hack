@@ -4,7 +4,7 @@ import Web3 from 'web3';
 import { addrNFT, addrStaking, addrToken, CHAIN_PARAMS } from './addresses'
 import "./App.css";
 const BigNumber = require('bignumber.js');
-
+const CELO = " CELO";
 const bnZero = new BigNumber(0);
 const Navbar = ({ walletAddress }) => {
   return (
@@ -34,11 +34,11 @@ const Navbar = ({ walletAddress }) => {
 const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rareNFTCap, epicNFTCap, legendaryNFTCap, commonNFTPrice, uncommonNFTPrice, rareNFTPrice, epicNFTPrice, legendaryNFTPrice, commonCount, uncommonCount, rareCount, epicCount, legendaryCount }) => {
   console.log("C1Page, myTotalNFTs:- ", myTotalNFTs);
   myTotalNFTs = myTotalNFTs.toString();
-  commonNFTPrice = commonNFTPrice.toString()
-  uncommonNFTPrice = uncommonNFTPrice.toString();
-  rareNFTPrice = rareNFTPrice.toString();
-  epicNFTPrice = epicNFTPrice.toString();
-  legendaryNFTPrice = legendaryNFTPrice.toString();
+  commonNFTPrice = commonNFTPrice.toString() + CELO
+  uncommonNFTPrice = uncommonNFTPrice.toString() + CELO;
+  rareNFTPrice = rareNFTPrice.toString() + CELO;
+  epicNFTPrice = epicNFTPrice.toString() + CELO;
+  legendaryNFTPrice = legendaryNFTPrice.toString() + CELO;
 
   const totalNFTsString = (new BigNumber(myTotalNFTs)).toString();
   const commonLeft = (commonNFTCap - commonCount).toString();
@@ -280,7 +280,7 @@ const styles = {
 
 
 const Contract2Page = ({ amIStaker, rewardAccumulated, claimReward, stakeWallet, getRewardAccumulated, supplyRatio, tokenAddress }) => {
-  rewardAccumulated = rewardAccumulated.toString();
+  rewardAccumulated = rewardAccumulated.toString() + " CAMO";
   supplyRatio = supplyRatio.toString();
 
   return (
@@ -594,7 +594,8 @@ const App = () => {
     try {
       const result = await camoNFTInstance.methods.getPrice(rarity).call();
       console.log("rarity", rarity, " prcie ", result)
-      setNFTPriceByRarity(rarity, new BigNumber(result))
+      const p = (new BigNumber(result)).dividedBy(new BigNumber(10 ** 18))
+      setNFTPriceByRarity(rarity, p)
     } catch (error) {
       console.error(error)
     }
@@ -611,7 +612,8 @@ const App = () => {
   const mintNFT = async (rarity) => {
     console.log("mintNFT(_) called ", rarity)
     try {
-      const price = web3.utils.toWei(getPriceByRarity(rarity).toString(), "wei");
+      const p = (new BigNumber(getPriceByRarity(rarity))).times(new BigNumber(10 ** 18));
+      const price = web3.utils.toWei(p.toString(), "wei");
       console.log("priceInWei ", price)
       const result = await camoNFTInstance.methods.mintNFT(rarity).send({ from: window.web3.currentProvider.selectedAddress, value: price });
       console.log("minNFT", result)

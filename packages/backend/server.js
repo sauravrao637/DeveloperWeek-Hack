@@ -13,7 +13,7 @@ async function main() {
 	const kit = ContractKit.newKitFromWeb3(web3);
 
 	// Set the contract address and ABI
-	const contractAddress = '0x8f2bdbfdD6c7197c033d7976A5242DB9b1FF3c3c'; // Replace with your contract address
+	const contractAddress = '0x2C857F0Bb21af8981D9a27500d964960619073ba'; // Replace with your contract address
 	const contractABI = [
 		{
 			"inputs": [
