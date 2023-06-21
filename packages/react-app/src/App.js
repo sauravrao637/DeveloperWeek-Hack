@@ -616,7 +616,7 @@ const App = () => {
     console.log("checkStaker() called")
 
     try {
-      const result = await camoStakingInstance.methods.amIStaker.call({ from: window.web3.currentProvider.selectedAddress });
+      const result = await camoStakingInstance.methods.amIStaker().call({ from: window.web3.currentProvider.selectedAddress });
       console.log("staker status: ", result);
       setStakerStatus(true)
     } catch (error) {
