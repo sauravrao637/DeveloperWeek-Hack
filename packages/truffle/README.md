@@ -21,9 +21,9 @@ The `CamoToken` contract is an ERC20 token contract representing the native toke
 
 The contracts have been deployed on the Celo Alfajores Testnet. The deployment addresses are as follows:
 
-- `CamoStaking`: [0x1C1cc2C323d0C0257Dd9Bc05AD7608c4d2a208c0](https://explorer.celo.org/alfajores/address/0x1C1cc2C323d0C0257Dd9Bc05AD7608c4d2a208c0)
-- `CamoNFT`: [0xCf4EB4d955b7045430841487610D596555139D44](https://explorer.celo.org/alfajores/address/0xCf4EB4d955b7045430841487610D596555139D44)
-- `CamoToken`: [0x5d71c55718cA8c30D2CE8B60b5f15fB323f86C10](https://explorer.celo.org/alfajores/address/0x5d71c55718cA8c30D2CE8B60b5f15fB323f86C10)
+- `CamoStaking`: [0x2C857F0Bb21af8981D9a27500d964960619073ba](https://explorer.celo.org/alfajores/address/0x2C857F0Bb21af8981D9a27500d964960619073ba)
+- `CamoNFT`: [0x52F39B763686192A1af819Fe12B85057A7BA3fFa](https://explorer.celo.org/alfajores/address/0x52F39B763686192A1af819Fe12B85057A7BA3fFa)
+- `CamoToken`: [0xFcAF8B0c2616476A5f80AbD892DCcB3eE13fA1D7](https://explorer.celo.org/alfajores/address/0xFcAF8B0c2616476A5f80AbD892DCcB3eE13fA1D7)
 
 ## Usage
 
