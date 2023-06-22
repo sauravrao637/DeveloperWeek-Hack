@@ -1,9 +1,10 @@
 This README provides an overview of the frontend part of our hackathon project. It outlines the technologies used, setup instructions, and basic usage guidelines. The frontend is built using React and interacts with the smart contracts deployed on the Celo blockchain.
 
-##Technologies Used
-React: A JavaScript library for building user interfaces. It enables us to create interactive and dynamic components, manage application state, and facilitate seamless updates.
+## Technologies Used
 
-Web3.js: A JavaScript library that allows interaction with the Celo blockchain. Web3.js provides functions to connect to the blockchain, interact with smart contracts, and retrieve data.
+**React**: A JavaScript library for building user interfaces. It enables us to create interactive and dynamic components, manage application state, and facilitate seamless updates.
+
+**Web3.js**: A JavaScript library that allows interaction with the Celo blockchain. Web3.js provides functions to connect to the blockchain, interact with smart contracts, and retrieve data.
 
 Setup Instructions
 Follow these steps to set up the frontend for local development:
@@ -19,7 +20,7 @@ Install the required dependencies:
 
 ```npm start```
 
-This command will start the frontend application on ```http://localhost:3000/```, and any changes made to the source code will automatically trigger hot-reloading.
+This command will start the frontend application on [link][http://localhost:3000/], and any changes made to the source code will automatically trigger hot-reloading.
 
 Usage
 Once the frontend is set up and running, you can access the application in your web browser. The application provides a user interface to interact with the smart contracts deployed on the Celo blockchain.
