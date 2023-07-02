@@ -143,6 +143,147 @@ body {
 
 /* END NAVBAR */
 
+/* NFT Page*/
+.container {
+  background: #000000;
+  color: #ffffff;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.header {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+.walletButton {
+  background: #ffffff;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.content {
+  margin-top: 60px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.button {
+  background: #ffffff;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin: 0 12px;
+  cursor: pointer;
+}
+
+.containers {
+  background: #222;
+  color: #fff;
+  width: 100vw;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.carouselContainer {
+  width: 100%;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.carousel {
+  display: flex;
+}
+
+.carouselItem {
+  margin: 10px;
+}
+
+.nftBox {
+  background: #333;
+  color: #fff;
+  width: 200px;
+  height: 350px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.nftImage {
+  width: 80%;
+  height: auto;
+  border-radius: 8px;
+  margin: 10px 0;
+}
+
+.unclickableTab {
+  background: #666;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.mintButton {
+  background: #fff;
+  color: #222;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.nftBoxHighlighted {
+  transform: translateY(-5px);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.infoLabel {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.infoValue {
+  font-size: 16px;
+  margin-left: 5px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+/* END NFT Page */
+
 /* Staking Design */
 .dark-page {
   display: grid;
