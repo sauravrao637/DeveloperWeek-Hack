@@ -34,11 +34,11 @@ const Navbar = ({ walletAddress }) => {
 const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rareNFTCap, epicNFTCap, legendaryNFTCap, commonNFTPrice, uncommonNFTPrice, rareNFTPrice, epicNFTPrice, legendaryNFTPrice, commonCount, uncommonCount, rareCount, epicCount, legendaryCount }) => {
   console.log("C1Page, myTotalNFTs:- ", myTotalNFTs);
   myTotalNFTs = myTotalNFTs.toString();
-  commonNFTPrice = commonNFTPrice.toString() + CELO
-  uncommonNFTPrice = uncommonNFTPrice.toString() + CELO;
-  rareNFTPrice = rareNFTPrice.toString() + CELO;
-  epicNFTPrice = epicNFTPrice.toString() + CELO;
-  legendaryNFTPrice = legendaryNFTPrice.toString() + CELO;
+  commonNFTPrice = commonNFTPrice.toString() + ' CELO';
+  uncommonNFTPrice = uncommonNFTPrice.toString() + ' CELO';
+  rareNFTPrice = rareNFTPrice.toString() + ' CELO';
+  epicNFTPrice = epicNFTPrice.toString() + ' CELO';
+  legendaryNFTPrice = legendaryNFTPrice.toString() + ' CELO';
 
   const totalNFTsString = (new BigNumber(myTotalNFTs)).toString();
   const commonLeft = (commonNFTCap - commonCount).toString();
@@ -48,235 +48,106 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
   const legendaryLeft = (legendaryNFTCap - legendaryCount).toString();
 
   return (
-    <div style={styles.containers}>
-      <h3 style={styles.sectionTitle}>Mint NFTs</h3>
-      <div style={styles.carouselContainer}>
-        <div style={styles.carousel}>
-          <div style={styles.carouselItem}>
-            <div style={styles.nftBox}>
-              <img src="./common.jpg" alt="Common NFT" style={styles.nftImage} />
-              <div style={styles.unclickableTab}>Common</div>
+    <div className="containers">
+      <h3 className="sectionTitle">Mint NFTs</h3>
+      <div className="carouselContainer">
+        <div className="carousel">
+          <div className="carouselItem">
+            <div className="nftBox">
+              <img src="./common.jpg" alt="Common NFT" className="nftImage" />
+              <div className="unclickableTab">Common</div>
               <div>
-                <span style={styles.infoLabel}>Price: </span>
-                <span style={styles.infoValue}>{commonNFTPrice}</span>
+                <span className="infoLabel">Price: </span>
+                <span className="infoValue">{commonNFTPrice}</span>
               </div>
               <div>
-                <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>{commonLeft}</span>
+                <span className="infoLabel">Supply Left: </span>
+                <span className="infoValue">{commonLeft}</span>
               </div>
-              <div style={styles.buttonContainer}></div>
-              <button style={styles.mintButton} onClick={() => mintNFT(0)}>
+              <div className="buttonContainer"></div>
+              <button className="mintButton" onClick={() => mintNFT(0)}>
                 Mint
               </button>
             </div>
           </div>
-          <div style={styles.carouselItem}>
-            <div style={styles.nftBox}>
-              <img src="./uncommon.jpg" alt="Uncommon NFT" style={styles.nftImage} />
-              <div style={styles.unclickableTab}>Uncommon</div>
+          <div className="carouselItem">
+            <div className="nftBox">
+              <img src="./uncommon.jpg" alt="Uncommon NFT" className="nftImage" />
+              <div className="unclickableTab">Uncommon</div>
               <div>
-                <span style={styles.infoLabel}>Price: </span>
-                <span style={styles.infoValue}>{uncommonNFTPrice}</span>
+                <span className="infoLabel">Price: </span>
+                <span className="infoValue">{uncommonNFTPrice}</span>
               </div>
               <div>
-                <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>{uncommonLeft}</span>
+                <span className="infoLabel">Supply Left: </span>
+                <span className="infoValue">{uncommonLeft}</span>
               </div>
-              <div style={styles.buttonContainer}></div>
-              <button style={styles.mintButton} onClick={() => mintNFT(1)}>
+              <div className="buttonContainer"></div>
+              <button className="mintButton" onClick={() => mintNFT(1)}>
                 Mint
               </button>
             </div>
           </div>
-          <div style={styles.carouselItem}>
-            <div style={styles.nftBox}>
-              <img src="./rare.jpg" alt="Rare NFT" style={styles.nftImage} />
-              <div style={styles.unclickableTab}>Rare</div>
+          <div className="carouselItem">
+            <div className="nftBox">
+              <img src="./rare.jpg" alt="Rare NFT" className="nftImage" />
+              <div className="unclickableTab">Rare</div>
               <div>
-                <span style={styles.infoLabel}>Price: </span>
-                <span style={styles.infoValue}>{rareNFTPrice}</span>
+                <span className="infoLabel">Price: </span>
+                <span className="infoValue">{rareNFTPrice}</span>
               </div>
               <div>
-                <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>{rareLeft}</span>
+                <span className="infoLabel">Supply Left: </span>
+                <span className="infoValue">{rareLeft}</span>
               </div>
-              <div style={styles.buttonContainer}></div>
-              <button style={styles.mintButton} onClick={() => mintNFT(2)}>
+              <div className="buttonContainer"></div>
+              <button className="mintButton" onClick={() => mintNFT(2)}>
                 Mint
               </button>
             </div>
           </div>
-          <div style={styles.carouselItem}>
-            <div style={styles.nftBox}>
-              <img src="./epic.jpg" alt="Epic NFT" style={styles.nftImage} />
-              <div style={styles.unclickableTab}>Epic</div>
+          <div className="carouselItem">
+            <div className="nftBox">
+              <img src="./epic.jpg" alt="Epic NFT" className="nftImage" />
+              <div className="unclickableTab">Epic</div>
               <div>
-                <span style={styles.infoLabel}>Price: </span>
-                <span style={styles.infoValue}>{epicNFTPrice}</span>
+                <span className="infoLabel">Price: </span>
+                <span className="infoValue">{epicNFTPrice}</span>
               </div>
               <div>
-                <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>{epicLeft}</span>
+                <span className="infoLabel">Supply Left: </span>
+                <span className="infoValue">{epicLeft}</span>
               </div>
-              <div style={styles.buttonContainer}></div>
-              <button style={styles.mintButton} onClick={() => mintNFT(3)}>
+              <div className="buttonContainer"></div>
+              <button className="mintButton" onClick={() => mintNFT(3)}>
                 Mint
               </button>
             </div>
           </div>
-          <div style={styles.carouselItem}>
-            <div style={styles.nftBox}>
-              <img src="./legendary.jpg" alt="Legendary NFT" style={styles.nftImage} />
-              <div style={styles.unclickableTab}>Legendary</div>
+          <div className="carouselItem">
+            <div className="nftBox">
+              <img src="./legendary.jpg" alt="Legendary NFT" className="nftImage" />
+              <div className="unclickableTab">Legendary</div>
               <div>
-                <span style={styles.infoLabel}>Price: </span>
-                <span style={styles.infoValue}>{legendaryNFTPrice}</span>
+                <span className="infoLabel">Price: </span>
+                <span className="infoValue">{legendaryNFTPrice}</span>
               </div>
               <div>
-                <span style={styles.infoLabel}>Supply Left: </span>
-                <span style={styles.infoValue}>{legendaryLeft}</span>
+                <span className="infoLabel">Supply Left: </span>
+                <span className="infoValue">{legendaryLeft}</span>
               </div>
-              <div style={styles.buttonContainer}></div>
-              <button style={styles.mintButton} onClick={() => mintNFT(4)}>
+              <div className="buttonContainer"></div>
+              <button className="mintButton" onClick={() => mintNFT(4)}>
                 Mint
               </button>
             </div>
           </div>
         </div>
       </div>
-      <h3 style={styles.sectionTitle}>{"My NFT Count " + totalNFTsString}</h3>
-
+      <h3 className="sectionTitle">{"My NFT Count " + totalNFTsString}</h3>
     </div>
   );
 };
-
-const styles = {
-
-  container: {
-    background: '#000000',
-    color: '#ffffff',
-    height: '100vh',
-    width: '100vw',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-
-  header: {
-    position: 'fixed',
-    top: '10px',
-    right: '10px',
-  },
-  walletButton: {
-    background: '#ffffff',
-    color: '#1a1a1a',
-    border: 'none',
-    borderRadius: '4px',
-    padding: '8px 12px',
-    cursor: 'pointer',
-  },
-  content: {
-    marginTop: '60px',
-  },
-
-  buttonContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '24px',
-  },
-  button: {
-    background: '#ffffff',
-    color: '#1a1a1a',
-    border: 'none',
-    borderRadius: '4px',
-    padding: '8px 16px',
-    margin: '0 12px',
-    cursor: 'pointer',
-  },
-  containers: {
-    background: '#222',
-    color: '#fff',
-    width: '100vw',
-    height: '70vh',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    overflow: 'hidden',
-  },
-
-  sectionTitle: {
-    fontSize: '24px',
-    fontWeight: 'bold',
-    marginBottom: '20px',
-    textAlign: 'center',
-  },
-  carouselContainer: {
-    width: '100%',
-    overflowX: 'hidden',
-    display: 'flex',
-    justifyContent: 'center',
-  },
-
-  carousel: {
-    display: 'flex',
-  },
-  carouselItem: {
-    margin: '10px',
-  },
-  nftBox: {
-    background: '#333',
-    color: '#fff',
-    width: '200px',
-    height: '350px',
-    borderRadius: '8px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    transition: 'transform 0.3s ease',
-  },
-  nftImage: {
-    width: '80%',
-    height: 'auto',
-    borderRadius: '8px',
-    margin: '10px 0',
-  },
-  unclickableTab: {
-    background: '#666',
-    color: '#fff',
-    padding: '5px 10px',
-    borderRadius: '4px',
-    marginBottom: '10px',
-  },
-  mintButton: {
-    background: '#fff',
-    color: '#222',
-    border: 'none',
-    borderRadius: '4px',
-    padding: '10px 20px',
-    cursor: 'pointer',
-  },
-  nftBoxHighlighted: {
-    transform: 'translateY(-5px)',
-    boxShadow: '0 0 10px rgba(255, 255, 255, 0.5)',
-  },
-  infoLabel: {
-    fontSize: '16px',
-    fontWeight: 'bold',
-  },
-  infoValue: {
-    fontSize: '16px',
-    marginLeft: '5px',
-  },
-  buttonContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    marginTop: '10px',
-  },
-};
-
 
 
 const Contract2Page = ({ amIStaker, rewardAccumulated, claimReward, stakeWallet, getRewardAccumulated, supplyRatio, tokenAddress }) => {
@@ -310,6 +181,7 @@ const Contract2Page = ({ amIStaker, rewardAccumulated, claimReward, stakeWallet,
     </div>
   );
 };
+
 
 const App = () => {
   const [walletAddress, setWalletAddress] = useState('_');
