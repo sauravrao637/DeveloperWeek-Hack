@@ -149,6 +149,40 @@ const Contract1Page = ({ myTotalNFTs, mintNFT, commonNFTCap, uncommonNFTCap, rar
   );
 };
 
+
+const Contract2Page = ({ amIStaker, rewardAccumulated, claimReward, stakeWallet, getRewardAccumulated, supplyRatio, tokenAddress }) => {
+  rewardAccumulated = rewardAccumulated.toString() + " CAMO";
+  supplyRatio = supplyRatio.toString();
+
+  return (
+    <div className="Stake-container">
+      <div className="dark-page">
+        <div className="column">
+          <div className="box">
+            <h3 className="heading">Token Address</h3>
+            <div className="bigger-box">
+              <div className="address-tab">
+                {tokenAddress}
+              </div>
+              {!amIStaker &&
+                <button className="stake-button" onClick={() => stakeWallet()}>Stake Wallet</button>
+              }
+              <div className="nested-box">
+                <h3 className="heading">Supply Ratio</h3>
+                <div className="ratio-tab">{supplyRatio}</div>
+                <h3 className="heading">Reward Accumulated</h3>
+                <div className="ratio-tab">{rewardAccumulated}</div>
+                <button className="claim-button" onClick={() => claimReward()}>Claim Rewards</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 const App = () => {
   const [walletAddress, setWalletAddress] = useState('_');
   const [web3, setWeb3] = useState(null);
